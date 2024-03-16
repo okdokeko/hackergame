@@ -1,9 +1,9 @@
 
 var config = {
-    width: 800,
-    heigth: 600,
+    width: 500,
+    height: 393,
     backgroundColor: 0x000000,
-    scene: [Main, Shop, Boss]
+    scene: [Main, Start, Shop, Boss]
 }
 
 var game = new Phaser.Game(config);

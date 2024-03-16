@@ -7,7 +7,7 @@ body {
     background-color: #cc3232;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
 }
 .container {
     max-width: 600px;

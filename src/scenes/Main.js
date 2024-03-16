@@ -3,8 +3,15 @@ class Main extends Phaser.Scene {
         super("Main");
     }
 
+    preload(){
+        this.load.image("shopBackground", "/src/assets/background.jpg");
+        this.load.image("startBackground", "/src/assets/startBackground.jpg")
+        this.load.image("a", "/src/assets/alphabet/a.png");
+    }
+
     create() {
         this.add.text(20,20, "Loading game...");
+        this.scene.start("Start");
     }
 }
 
