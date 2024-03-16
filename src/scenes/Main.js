@@ -1,8 +1,15 @@
 class Main extends Phaser.Scene {
     constructor() {
         super("Main");
-    }
+    } 
 
+    init() {
+        // initialize variables used 
+        var money = 10; // initial money tbd
+        var score = 0; 
+        var deck = null; //an object of cards? cards are an enum. Don't know where to include this cards enum
+        var iterationIndex = 0; //which shop/boss loop is the player? entering shop increments this. 
+    }
     preload(){
         this.load.image("shopBackground", "/src/assets/background.jpg");
         this.load.image("startBackground", "/src/assets/startBackground.jpg")

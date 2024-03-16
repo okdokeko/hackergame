@@ -27,7 +27,12 @@ class Shop extends Phaser.Scene
         this.a = this.add.image(config.width/2-60, config.height/3 * 2, "a");
         
         this.add.text(130,20, "Welcome to the shop", {font: "25px Arial", fill: "black"});
-        this.add.text(260,50, "`${money}`", {font: "25px Arial", fill: "black"})
+        this.moneyText = this.add.text(260,50, `Money: ${this.money}`, {font: "25px Arial", fill: "black"})
+    }
+
+    update ()
+    {
+        //this.moneyText.setText("Money: " + money);
     }
 }
 

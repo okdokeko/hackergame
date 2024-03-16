@@ -9,10 +9,10 @@ class Start extends Phaser.Scene
     init (data)
     {
         // initialize variables used 
-        var money = 10; // initial money tbd
-        var score = 0; 
-        var deck = null; //an object of cards? cards are an enum. Don't know where to include this cards enum
-        var iterationIndex = 0; //which shop/boss loop is the player? entering shop increments this. 
+        this.money = 10; // initial money tbd
+        this.score = 0; 
+        this.deck = null; //an object of cards? cards are an enum. Don't know where to include this cards enum
+        this.iterationIndex = 0; //which shop/boss loop is the player? entering shop increments this.
     }
 
     preload ()
@@ -49,10 +49,7 @@ class Start extends Phaser.Scene
 
             // Add an event listener to the start button
             startButton.on('pointerdown', () => {
-                this.scene.start('Shop', {  money: this.money,
-                                            score: this.score,
-                                            deck: this.deck,
-                                            iterationIndex: this.iterationIndex});
+                this.scene.start('Shop', {money: this.money, score: this.score, deck: this.deck, iterationIndex: this.iterationIndex});
             });
     }
 }
