@@ -163,7 +163,6 @@ class Shop extends Phaser.Scene {
         //money count change test
         this.moneyText?.destroy(); // Clear previous money count
         this.moneyText = this.add.text(config.width / 9, config.height / 5, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
-        this.data.money += 1;
     }
 }
 

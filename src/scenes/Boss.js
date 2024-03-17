@@ -5,16 +5,15 @@ class Boss extends Phaser.Scene {
 
     init(data) {
         this.data = data;
+        this.bossMaxHealth = 100 * this.data.level;
+        this.bossCurrHealth = this.bossMaxHealth;
     }
 
     create() {
         this.cameras.main.setBackgroundColor(0xffcccc);
 
-        var bossMaxHealth = 100 * this.data.level;
-        var bossCurrHealth = 75;
-
         // Add text box
-        const textBox = this.add.text(config.width / 2, config.height / 10, "Boss 1: Bennet Jackson", {
+        const textBox = this.add.text(config.width / 2, config.height / 10, `Boss ${this.data.level}: Bennet Jackson`, {
             fontFamily: 'Arial',
             fontSize: '24px',
             color: '#ffffff',
@@ -26,20 +25,18 @@ class Boss extends Phaser.Scene {
         });
         textBox.setOrigin(0.5);
 
-        // Add boss image
-        var bossImage = this.add.image(config.width / 4, config.height / 3, 'boss');
-        bossImage.setScale(.4, .1);
+        // Add boss image as a class member
+        this.bossImage = this.add.image(config.width / 4, config.height / 3, 'boss');
+        this.bossImage.setScale(.4, .1);
 
         // Add black rectangle
         const rect = this.add.rectangle(config.width / 2, config.height / 1.3, config.width / 2, config.height / 3, 0x000000);
 
         // Add health bar
-        const healthBar = this.add.rectangle(bossImage.x + config.width / 2.5, config.height / 5, config.width / 3, config.height / 15, 0x000000);
-        const currHealthBar = this.add.rectangle(bossImage.x + config.width / 2.5, config.height / 5,
-            (config.width / 3) * (bossCurrHealth / bossMaxHealth), config.height / 15, 0xff0000);
+        const healthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, config.width / 3, config.height / 15, 'red');
 
         // Add HP text
-        const hpText = this.add.text(bossImage.x + config.width / 2.5, config.height / 5 - 30, "HP", {
+        const hpText = this.add.text(this.bossImage.x + config.width / 2.5, config.height / 5 - 30, "HP", {
             fontFamily: 'Arial',
             fontSize: '18px',
             color: '#ffffff',
@@ -50,19 +47,6 @@ class Boss extends Phaser.Scene {
             }
         });
         hpText.setOrigin(0.5);
-
-        // Add health text
-        const healthText = this.add.text(bossImage.x + config.width / 2.5, config.height / 5, `${bossCurrHealth} / ${bossMaxHealth}`, {
-            fontFamily: 'Arial',
-            fontSize: '18px',
-            color: '#ffffff',
-            backgroundColor: '#000000',
-            padding: {
-                x: 10,
-                y: 5
-            }
-        });
-        healthText.setOrigin(0.5);
 
         // Add current hand text
         const handText = this.add.text(config.width / 2, config.height / 1.15, "Current Hand", {
@@ -78,7 +62,7 @@ class Boss extends Phaser.Scene {
         handText.setOrigin(0.5);
 
         // Add play word text
-        const playWordText = this.add.text(bossImage.x + config.width / 2.5, config.height / 5 + 60, "Play Word", {
+        const playWordText = this.add.text(this.bossImage.x + config.width / 2.5, config.height / 5 + 60, "Play Word", {
             fontFamily: 'Arial',
             fontSize: '18px',
             color: 'black',
@@ -98,34 +82,44 @@ class Boss extends Phaser.Scene {
         this.moneyText = this.add.text(config.width / 9, config.height / 10, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
 
         //Display level
-        this.moneyText = this.add.text(config.width / 4, config.height / 10, `Level: ${this.data.level}`, { font: "25px Arial", fill: "black" });
+        this.levelText = this.add.text(config.width / 4, config.height / 10, `Level: ${this.data.level}`, { font: "25px Arial", fill: "black" });
+
+    }
+
+    update() {
+        //money count change test
+
+        //this.currHealthBar?.destroy();
+        this.currHealthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5,
+            (config.width / 3) * (this.bossCurrHealth / this.bossMaxHealth), config.height / 15, 'gold');
+
+        this.bossCurrHealth -= 1;
 
 
-        //temp shop button
-        const shopButton = this.add.text(config.width - 100, 300, 'Shop', {
+        // Add health text
+        const healthText = this.add.text(this.bossImage.x + config.width / 2.5, config.height / 5, `${this.bossCurrHealth} / ${this.bossMaxHealth}`, {
             fontFamily: 'Arial',
-            fontSize: '32px',
+            fontSize: '18px',
             color: '#ffffff',
             backgroundColor: '#000000',
             padding: {
-                x: 16,
-                y: 8
-            }
-        }).setOrigin(0.5).setInteractive();
-
-
-        // Add an event listener to the start button
-        shopButton.on('pointerdown', () => {
-
-            this.data.level += 1;
-
-            if (this.data.level == 11) {
-                this.scene.start('Win');
-            }
-            else {
-                this.scene.start('Shop', this.data);
+                x: 10,
+                y: 5
             }
         });
+        healthText.setOrigin(0.5);
 
+
+        if (this.bossCurrHealth < 1) {
+            this.data.level += 1;
+            if (this.data.level == 11) {
+                this.scene.start('Win');
+            } else {
+                this.scene.start('Shop', this.data);
+            }
+        }
+
+        // this.moneyText?.destroy(); // Clear previous money count
+        // this.moneyText = this.add.text(config.width / 9, config.height / 5, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
     }
 }
