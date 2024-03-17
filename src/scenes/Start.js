@@ -25,7 +25,7 @@ class Start extends Phaser.Scene
     create ()
     {
             // Add a background image
-            this.background = this.add.image(0,0, "startBackground");
+            this.background = this.add.tileSprite(0, 0, config.width, config.height, "startBackground");
             this.background.setOrigin(0);
             this.background.setScale(2); //why doesnt this work? -- scale was uncapitalized lol
             
@@ -54,6 +54,11 @@ class Start extends Phaser.Scene
             startButton.on('pointerdown', () => {
                 this.scene.start('Shop', {money: this.money, score: this.score, deck: this.deck, iterationIndex: this.iterationIndex});
             });
+    }
+
+    update(){
+        this.background.tilePositionY -= 0.5;
+        this.background.tilePositionX += 0.5;
     }
 }
 
