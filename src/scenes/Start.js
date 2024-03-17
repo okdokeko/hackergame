@@ -18,7 +18,7 @@ class Start extends Phaser.Scene {
             money: 10, // initial money tbd
             score: 0,
             deck: new Deck(), 
-            level: 0,
+            level: 1,
         }
         data.deck.initDeck();  
 
@@ -51,6 +51,22 @@ class Start extends Phaser.Scene {
         // Add an event listener to the start button
         startButton.on('pointerdown', () => {
             this.scene.start('Shop', data);
+        });
+
+        // Add a credits button
+        const creditsButton = this.add.text(config.width / 2, 300, 'Credits', {
+            fontFamily: 'Arial',
+            fontSize: '32px',
+            color: '#ffffff',
+            backgroundColor: '#000000',
+            padding: {
+                x: 16,
+                y: 8
+            }
+        }).setOrigin(0.5).setInteractive();
+        // Add an event listener to the credits button
+        creditsButton.on('pointerdown', () => {
+            this.scene.start('Credits');
         });
     }
 
