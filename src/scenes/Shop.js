@@ -22,7 +22,7 @@ class Shop extends Phaser.Scene {
 
         /*Shop*/
         // Add the rectangle to the scene
-        this.blackBox = this.add.rectangle(config.width / 2, config.height / 1.7, config.width * 3/4 , config.height / 2, 0x000000, .9);
+        this.blackBox = this.add.rectangle(config.width / 2, config.height * 5/8 , config.width * 6/7 , config.height * 5/8, 0x000000, .9);
 
         this.waresAccent = this.add.rectangle(config.width / 2.015, config.height / 2.55, config.width / 8, config.height / 14, 0xf0e62e, .9);
         this.add.text(config.width / 2.24, config.height / 2.8, "Wares", {
@@ -33,12 +33,111 @@ class Shop extends Phaser.Scene {
         });
 
         // Add cards
-        this.cardLeft = this.add.image(config.width * 25 / 100, config.height / 1.65 , getRandLetter());
-        this.cardLeft.setScale(.7);
-        this.cardMid = this.add.image(config.width * 50 / 100, config.height / 1.65 , getRandLetter());
-        this.cardMid.setScale(.7);
-        this.cardRight = this.add.image(config.width * 75 / 100, config.height / 1.65 , getRandLetter());
-        this.cardRight.setScale(.7);
+        var card1Char = getRandLetter();
+        this.card1 = this.add.image(config.width * 18 / 100, config.height / 1.65 , card1Char);
+        this.card1.setScale(.7);
+
+        var card2Char = getRandLetter();
+        this.card2 = this.add.image(config.width * 34 / 100, config.height / 1.65 , card2Char);
+        this.card2.setScale(.7);
+
+        var card3Char = getRandLetter();
+        this.card3 = this.add.image(config.width * 50 / 100, config.height / 1.65 , card3Char);
+        this.card3.setScale(.7);
+
+        var card4Char = getRandLetter();
+        this.card4 = this.add.image(config.width * 66 / 100, config.height / 1.65 , card4Char);
+        this.card4.setScale(.7);
+
+        var card5Char = getRandLetter();
+        this.card5 = this.add.image(config.width * 82 / 100, config.height / 1.65 , card5Char);
+        this.card5.setScale(.7);
+
+        // Cost of each letter. More frequent letters are more expensive 
+        const letterCostMap = {
+            'a': 3,
+            'b': 2,
+            'c': 1,
+            'd': 2,
+            'e': 3,
+            'f': 2,
+            'g': 1,
+            'h': 2,
+            'i': 3,
+            'j': 2,
+            'k': 2,
+            'l': 1,
+            'm': 2,
+            'n': 3,
+            'o': 3,
+            'p': 2,
+            'q': 2,
+            'r': 3,
+            's': 3,
+            't': 3,
+            'u': 2,
+            'v': 2,
+            'w': 2,
+            'x': 2,
+            'y': 2,
+            'z': 1
+        };
+
+        // Add price button and text
+        const buy1 = this.add.text(config.width * 18 / 100, config.height * 85 / 100 , `Cost ${letterCostMap[card1Char]}`, {
+            fontFamily: 'Arial',
+            fontSize: '24px',
+            color: '#000000',
+            backgroundColor: '#FFD1DC',
+            padding: {
+                x: 10,
+                y: 5
+            }
+        }).setOrigin(0.5).setInteractive();
+
+        const buy2 = this.add.text(config.width * 34 / 100, config.height * 85 / 100 , `Cost ${letterCostMap[card2Char]}`, {
+            fontFamily: 'Arial',
+            fontSize: '24px',
+            color: '#000000',
+            backgroundColor: '#FFD1DC',
+            padding: {
+                x: 10,
+                y: 5
+            }
+        }).setOrigin(0.5).setInteractive();
+        
+        const buy3 = this.add.text(config.width * 50 / 100, config.height * 85 / 100 , `Cost ${letterCostMap[card3Char]}`, {
+            fontFamily: 'Arial',
+            fontSize: '24px',
+            color: '#000000',
+            backgroundColor: '#FFD1DC',
+            padding: {
+                x: 10,
+                y: 5
+            }
+        }).setOrigin(0.5).setInteractive();
+
+        const buy4 = this.add.text(config.width * 66 / 100, config.height * 85 / 100 , `Cost ${letterCostMap[card4Char]}`, {
+            fontFamily: 'Arial',
+            fontSize: '24px',
+            color: '#000000',
+            backgroundColor: '#FFD1DC',
+            padding: {
+                x: 10,
+                y: 5
+            }
+        }).setOrigin(0.5).setInteractive();
+
+        const buy5 = this.add.text(config.width * 82 / 100, config.height * 85 / 100 , `Cost ${letterCostMap[card5Char]}`, {
+            fontFamily: 'Arial',
+            fontSize: '24px',
+            color: '#000000',
+            backgroundColor: '#FFD1DC',
+            padding: {
+                x: 10,
+                y: 5
+            }
+        }).setOrigin(0.5).setInteractive();
 
         /*Boss Button*/
         const bossButton = this.add.text(config.width / 1.2, config.height / 6, 'To Boss →', {
@@ -73,4 +172,3 @@ function getRandLetter() {
     const randomIndex = Math.floor(Math.random() * alphabet.length);
     return alphabet.charAt(randomIndex);
 }
-
