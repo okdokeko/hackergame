@@ -10,7 +10,7 @@ class Boss extends Phaser.Scene {
     create() {
         this.cameras.main.setBackgroundColor(0xffcccc);
 
-        var bossMaxHealth = 100;
+        var bossMaxHealth = 100 * this.data.level;
         var bossCurrHealth = 75;
 
         // Add text box
@@ -113,9 +113,18 @@ class Boss extends Phaser.Scene {
             }
         }).setOrigin(0.5).setInteractive();
 
+
         // Add an event listener to the start button
         shopButton.on('pointerdown', () => {
-            this.scene.start('Shop', this.data);
+
+            this.data.level += 1;
+
+            if (this.data.level == 11) {
+                this.scene.start('Win');
+            }
+            else {
+                this.scene.start('Shop', this.data);
+            }
         });
 
     }

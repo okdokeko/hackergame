@@ -17,5 +17,19 @@ class Win extends Phaser.Scene {
             fontSize: '100px',
             color: '#ffffff',
         }).setOrigin(0.5);
+
+        this.add.text(centerX, centerY + 200, 'Go to Start', {
+            fontSize: '50px',
+            color: '#ffffff',
+            backgroundColor: '#000000',
+            padding: {
+                left: 20,
+                right: 20,
+                top: 10,
+                bottom: 10
+            }
+        }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
+            this.scene.start('Start');
+        });
     }
 }
