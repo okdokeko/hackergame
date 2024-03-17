@@ -3,6 +3,10 @@ class Boss extends Phaser.Scene {
         super("Boss");
     }
 
+    init(data) {
+        this.data = data;
+    }
+
     create() {
         this.cameras.main.setBackgroundColor(0xffcccc);
 
@@ -80,8 +84,8 @@ class Boss extends Phaser.Scene {
             color: 'black',
             backgroundColor: 'gold', // Modified background color
             padding: {
-            x: 10,
-            y: 5
+                x: 10,
+                y: 5
             }
         });
         playWordText.setOrigin(0.5);
@@ -89,5 +93,30 @@ class Boss extends Phaser.Scene {
         // Add gold line under the hp bar
         const goldLine = this.add.rectangle(healthBar.x, healthBar.y + 220, config.width / 3, 2, 0xffd700);
         goldLine.setStrokeStyle(4, 0x000000);
+
+        //Display money
+        this.moneyText = this.add.text(config.width / 9, config.height / 10, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
+
+        //Display level
+        this.moneyText = this.add.text(config.width / 4, config.height / 10, `Level: ${this.data.level}`, { font: "25px Arial", fill: "black" });
+
+
+        //temp shop button
+        const shopButton = this.add.text(config.width - 100, 300, 'Shop', {
+            fontFamily: 'Arial',
+            fontSize: '32px',
+            color: '#ffffff',
+            backgroundColor: '#000000',
+            padding: {
+                x: 16,
+                y: 8
+            }
+        }).setOrigin(0.5).setInteractive();
+
+        // Add an event listener to the start button
+        shopButton.on('pointerdown', () => {
+            this.scene.start('Shop', this.data);
+        });
+
     }
 }

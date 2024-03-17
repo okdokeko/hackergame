@@ -5,10 +5,7 @@ class Shop extends Phaser.Scene {
     }
 
     init(data) {
-        this.money = data.money;
-        this.score = data.score;
-        this.deck = data.deck;
-        this.iterationIndex = data.iterationIndex + 1;
+        this.data = data;
     }
 
     preload() {
@@ -21,7 +18,7 @@ class Shop extends Phaser.Scene {
         this.background.setScale(3);
 
         this.add.text(config.width / 10, config.height / 15, "Shop", { font: config.width / 15 + "px Brush Script MT, cursive", fill: "black" });
-        this.moneyText = this.add.text(config.width / 9, config.height / 5, `Money: ${this.money}`, { font: "25px Arial", fill: "black" });
+        this.moneyText = this.add.text(config.width / 9, config.height / 5, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
 
         // Add the rectangle to the scene
         this.blackBox = this.add.rectangle(config.width / 2, config.height / 1.7, config.width / 2, config.height / 2, 0x000000, .9);
@@ -45,14 +42,15 @@ class Shop extends Phaser.Scene {
             }
         }).setOrigin(0.5).setInteractive();
         bossButton.on('pointerup', () => {
-            this.scene.start('Boss');
+            this.data.iterationIndex += 1;
+            this.scene.start('Boss', this.data);
         });
 
     }
 
     update() {
         this.background.tilePositionY -= .5;
-        //this.moneyText.setText("Money: " + money);
+        this.data.money += 1;
     }
 }
 
