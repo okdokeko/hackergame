@@ -1,5 +1,4 @@
-// import Deck from '../Data/Deck.js'; //TODO: Fix import
-
+//import Deck from 'src/Data/Deck.js'; //TODO: Fix import
 class Start extends Phaser.Scene {
 
     constructor() {
@@ -14,22 +13,19 @@ class Start extends Phaser.Scene {
 
     }
 
-
-
     create() {
         var data = {
             money: 10, // initial money tbd
             score: 0,
-            // deck: new Deck(), // TODO: fix the deck not loading
+            //deck: new Deck(), 
             level: 0,
         }
-
-        // data.deck.initDeck();  // TODO: fix the deck being sussy
+        //this.data.deck.initDeck();  
 
         // Add a background image
         this.background = this.add.tileSprite(0, 0, config.width, config.height, "startBackground");
         this.background.setOrigin(0);
-        this.background.setScale(2); //why doesnt this work? -- scale was uncapitalized lol
+        this.background.setScale(2);
 
 
         // Add a title text
