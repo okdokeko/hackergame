@@ -27,14 +27,15 @@ class Start extends Phaser.Scene
             // Add a background image
             this.background = this.add.image(0,0, "startBackground");
             this.background.setOrigin(0);
-            //this.background.setscale(1.5); //why doesnt this work?
+            this.background.setScale(2); //why doesnt this work? -- scale was uncapitalized lol
             
 
             // Add a title text
             this.add.text(config.width / 2, 100, 'Welcome to WordGame', {
-                fontFamily: 'Arial',
-                fontSize: '40px',
-                color: '#ffffff'
+                fontFamily: 'Luminari',
+                fontSize: config.width / 20 + 'px',
+                color: '#ffffff',
+                fontWeight: 'bold'
             }).setOrigin(0.5);
 
             //Add a start button
