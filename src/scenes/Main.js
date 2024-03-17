@@ -11,7 +11,12 @@ class Main extends Phaser.Scene {
         this.load.image("startBackground", "/src/assets/startBackground.jpg");
         this.load.image("boss", "/src/assets/firstBoss.jpg");
         this.load.image("trophy", "/src/assets/trophy.png");
-        this.load.image("a", "/src/assets/alphabet/a.png");
+
+        for (let letter of 'abcdefghijklmnopqrstuvwxyz') {
+            this.load.image(letter, `/src/assets/alphabet/${letter}.png`);
+        }
+
+
     }
 
     create() {
