@@ -10,7 +10,7 @@ class Credits extends Phaser.Scene {
         // Add any other elements or animations you want for your credits scene
 
         // Example: Go back to the main menu after a delay
-        this.time.delayedCall(5000, () => {
+        this.time.delayedCall(500, () => {
             this.scene.start('Start');
         });
     }
