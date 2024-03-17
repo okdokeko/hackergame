@@ -1,6 +1,6 @@
 //TODO: verify the code is working and that the deck can be imported/manipulated in scenes
 export default class Deck {
-    /*
+    
     constructor() {
         this.head = null; // Added head property
         this.tail = null;
@@ -73,5 +73,4 @@ export default class Deck {
             this.addLetter(randomLetterObj); // Adding letter object to the deck
         }
     }
-    */
 }
