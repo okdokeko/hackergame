@@ -16,7 +16,37 @@ class Start extends Phaser.Scene {
         var data = {
             money: 10, // initial money tbd
             score: 0,
-            deck: null, //
+            deck: {
+                head: null,
+                tail: null,
+                length: 0,
+                addLetter: function(letter) {
+                    const node = {
+                        letter: letter,
+                        next: null
+                    };
+                    if (this.head === null) {
+                        this.head = node;
+                        this.tail = node;
+                    } else {
+                        this.tail.next = node;
+                        this.tail = node;
+                    }
+                    this.length++;
+                },
+                removeLetter: function() {
+                    if (this.head === null) {
+                        return null;
+                    }
+                    const letter = this.head.letter;
+                    this.head = this.head.next;
+                    if (this.head === null) {
+                        this.tail = null;
+                    }
+                    this.length--;
+                    return letter;
+                }
+            },
             level: 0, //which shop/boss loop is the player? entering shop increments this.
         }
 
