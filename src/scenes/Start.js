@@ -11,8 +11,10 @@ class Start extends Phaser.Scene
         // initialize variables used 
         this.money = 10; // initial money tbd
         this.score = 0; 
-        this.deck = null; //an object of cards? cards are an enum. Don't know where to include this cards enum
+        this.deck = null; //
         this.iterationIndex = 0; //which shop/boss loop is the player? entering shop increments this.
+
+
     }
 
     preload ()
