@@ -68,6 +68,22 @@ class Start extends Phaser.Scene {
         creditsButton.on('pointerdown', () => {
             this.scene.start('Credits');
         });
+
+        // Add a tutorial button
+        const tutorialButton = this.add.text(config.width / 2, 400, 'Tutorial', {
+            fontFamily: 'Arial',
+            fontSize: '32px',
+            color: '#ffffff',
+            backgroundColor: '#000000',
+            padding: {
+                x: 16,
+                y: 8
+            }
+        }).setOrigin(0.5).setInteractive();
+        // Add an event listener to the tutorial button
+        tutorialButton.on('pointerdown', () => {
+            this.scene.start('Tutorial');
+        });
     }
 
     update() {
