@@ -26,8 +26,8 @@ class Tutorial extends Phaser.Scene {
     
         // Add detailed instructions
         const instructionsText = `
-            Welcome to SigmaBlasters! In this game, you will embark on an epic journey to defeat powerful Sigmas by playing words.
-
+            Welcome to Sigma Blasters! In this game, you will embark on an epic journey to defeat powerful Sigmas by playing words.
+    
             How to Play:
             1. You will encounter various Sigmas throughout the game. Your goal is to defeat each Sigma by playing words.
     
@@ -35,9 +35,11 @@ class Tutorial extends Phaser.Scene {
     
             3. Each word you play will have a score associated with it. The longer the word, the higher the score multiplier.
     
-            4. Keep an eye on the health bar at the top of the screen. If the bar runs out you defeat the Sigma!
+            4. The damage dealt to the boss is calculated using the formula: (Sum of letter scores) * (Length of the word - 2).
     
-            5. Earn money by defeating Sigmas and use it to purchase power-ups and upgrades from the shop.
+            5. Keep an eye on the health bar at the top of the screen. If the bar runs out, you defeat the Sigma!
+    
+            6. Earn money by defeating Sigmas and use it to purchase power-ups and upgrades from the shop.
     
             Are you ready to become the ultimate word warrior? Let's get started!
             `;
@@ -51,6 +53,7 @@ class Tutorial extends Phaser.Scene {
         });
         const buttonBounds = button.getBounds();
     }
+    
     
     
     
