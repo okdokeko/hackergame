@@ -8,7 +8,6 @@ class Boss extends Phaser.Scene {
         this.bossMaxHealth = 100 * this.data.level;
         this.bossCurrHealth = this.bossMaxHealth;
 
-        this.data = data;
         // Ensure the deck is initialized for the session
         if (!this.data.deck) {
             this.data.deck = new Deck();
@@ -19,11 +18,15 @@ class Boss extends Phaser.Scene {
     create() {
 
         // Assuming a predefined letterCostMap and config object exists
-        const letterCostMap = {
+        const letterScores = {
             'a': 3, 'b': 2, 'c': 1, 'd': 2, 'e': 3, 'f': 2, 'g': 1, 'h': 2, 'i': 3,
             'j': 2, 'k': 2, 'l': 1, 'm': 2, 'n': 3, 'o': 3, 'p': 2, 'q': 2, 'r': 3,
             's': 3, 't': 3, 'u': 2, 'v': 2, 'w': 2, 'x': 2, 'y': 2, 'z': 1
         };
+
+        this.currScore = 0;
+        this.currMult = 1;
+        this.currWord = "";
 
 
 
@@ -124,7 +127,7 @@ class Boss extends Phaser.Scene {
         // Display the player's current hand
         // this.displayPlayerHand();
 
-        this.generateCardsz(letterCostMap);
+        this.generateCardsz(letterScores);
 
     }
 
@@ -154,6 +157,16 @@ class Boss extends Phaser.Scene {
                 this.scene.start('Shop', this.data);
             }
         }
+
+        // Add a text field to display this.currWord
+        this.wordText = this.add.text(config.width / 2, config.height / 2, this.currWord, {
+            fontFamily: 'Arial',
+            fontSize: '24px',
+            color: '#ffffff',
+            backgroundColor: '#000000',
+            padding: { x: 10, y: 5 }
+        }).setOrigin(0.5);
+
     }
 
     displayPlayerHand() {
@@ -194,29 +207,21 @@ class Boss extends Phaser.Scene {
         return names[level] || ""; // Default to empty string if level is out of bounds
     }
 
-    generateCardsz(letterCostMap) {
+    generateCardsz(letterScores) {
         const positions = [14, 26, 38, 50, 62, 74, 86];
         positions.forEach(position => {
-            this.generateCardz(position, letterCostMap);
+            this.generateCardz(position, letterScores);
         });
     }
 
-    generateCardz(position, letterCostMap) {
-        const cardChar = Phaser.Math.RND.pick(Object.keys(letterCostMap));
+    generateCardz(position, letterScores) {
+        const cardChar = this.data.deck.getRandomLetter();
         const card = this.add.image(config.width * position / 100, config.height / 1.3, cardChar).setScale(.4).setInteractive();        
-
         
         card.on('pointerup', () => {
-            if (this.data.money >= letterCostMap[cardChar]) {
-                this.data.money -= letterCostMap[cardChar];
-                this.data.deck.addLetter(cardChar);
-                card.destroy(); // Remove the bought card
-                this.generateCardz(position, letterCostMap); // Generate a new card
-            } else {
-                // Handle insufficient funds
-            }
+            this.currScore += letterScores[cardChar]; // Correctly adds the score based on the letter
+            this.currWord += cardChar; // Correctly appends the letter to the current word
         });
-
     }
 
 
