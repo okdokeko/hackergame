@@ -148,7 +148,7 @@ class Boss extends Phaser.Scene {
             "", // Index 0 unused
             "Bennet Jackson", "William Rains", "Phoenix Garcia", "Maximilian Mace",
             "Ahmad Quereshi", "Sam Perry", "Sam Moreno", "Hippopotamus",
-            "Bacon Hair", "Gordis"
+            "Bacon Hair", "Gordis, Devourer of Worlds"
         ];
         return names[level] || ""; // Default to empty string if level is out of bounds
     }
