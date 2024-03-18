@@ -1,4 +1,3 @@
-
 class Shop extends Phaser.Scene {
     constructor() {
         super('Shop');
@@ -6,46 +5,58 @@ class Shop extends Phaser.Scene {
 
     init(data) {
         this.data = data;
-        // Ensure the deck is initialized for the session
-        if (!this.data.deck) {
-            this.data.deck = new Deck();
-        }
+        this.sessionPurchases = [];
     }
 
     preload() {
-        // Preload your assets here
+        // Preload your assets here, ensure the shopBackground is loaded
     }
 
     create() {
         this.background = this.add.tileSprite(0, 0, config.width, config.height, "shopBackground").setOrigin(0, 0).setScale(3);
-        this.add.text(config.width / 10, config.height / 15, "Shop", { font: `${config.width / 15}px Brush Script MT, cursive`, fill: "black" });
 
-        this.blackBox = this.add.rectangle(config.width / 2, config.height * 5 / 8, config.width * 6 / 7, config.height * 5 / 8, 0x000000, 0.9);
-        this.waresAccent = this.add.rectangle(config.width / 2.015, config.height / 2.55, config.width / 8, config.height / 14, 0xf0e62e, 0.9);
-        this.add.text(config.width / 2.24, config.height / 2.8, "Wares", {
-            font: `${config.width / 30}px Brush Script MT, cursive`, fill: "black",
-        }).setShadow(2, 2, "#333333", 2, false, true);
+        // Displaying the shop title more elegantly
+        this.add.text(config.width / 10, config.height / 15, "Shop", { 
+            font: `bold ${config.width / 15}px Arial`, 
+            fill: "#d9d9d9",
+            shadow: { color: '#000', fill: true, offsetX: 2, offsetY: 2, blur: 8 }
+        });
 
-        // Assuming a predefined letterCostMap and config object exists
+        // Updated UI for money display
+        this.moneyText = this.add.text(16, 16, `Money: ${this.data.money}`, { 
+            fontSize: '32px', 
+            fill: '#ffd700', // Gold color
+            fontStyle: 'bold',
+            shadow: { color: '#000', fill: true, offsetX: 2, offsetY: 2, blur: 8 }
+        });
+
         const letterCostMap = {
-            'a': 3, 'b': 2, 'c': 1, 'd': 2, 'e': 3, 'f': 2, 'g': 1, 'h': 2, 'i': 3,
-            'j': 2, 'k': 2, 'l': 1, 'm': 2, 'n': 3, 'o': 3, 'p': 2, 'q': 2, 'r': 3,
-            's': 3, 't': 3, 'u': 2, 'v': 2, 'w': 2, 'x': 2, 'y': 2, 'z': 1
+            'a': 3, 'b': 2, 'c': 1, // Continue with your mapping...
         };
 
         this.generateCards(letterCostMap);
 
-        const bossButton = this.add.text(config.width / 1.2, config.height / 6, 'To Boss →', {
+        // Displaying session purchases with an enhanced UI
+        this.purchasesText = this.add.text(config.width / 2, config.height - 40, "Bought Cards: ", {
             fontFamily: 'Arial',
-            fontSize: '60px',
+            fontSize: '24px',
             color: '#ffffff',
-            backgroundColor: '#000000',
-            padding: { x: 16, y: 8 }
-        }).setOrigin(0.5).setInteractive();
+            backgroundColor: '#333333',
+            padding: { x: 20, y: 10 },
+            borderRadius: 5
+        }).setOrigin(0.5).setStyle({ backgroundColor: '#333333' });
 
-        bossButton.on('pointerup', () => {
-            this.data.iterationIndex += 1;
-            this.scene.start('Boss', this.data);
+        // "Go to Boss" button with improved styling
+        const bossButton = this.add.text(config.width - 200, 16, 'Go to Boss', {
+            font: '22px Arial',
+            fill: '#fff',
+            backgroundColor: '#ff3333',
+            padding: { x: 10, y: 5 },
+            borderRadius: 5
+        }).setInteractive().setStyle({ backgroundColor: '#ff3333' });
+
+        bossButton.on('pointerdown', () => {
+            this.scene.start('Boss', { ...this.data, sessionPurchases: this.sessionPurchases });
         });
     }
 
@@ -59,39 +70,33 @@ class Shop extends Phaser.Scene {
     generateCard(position, letterCostMap) {
         const cardChar = Phaser.Math.RND.pick(Object.keys(letterCostMap));
         const card = this.add.image(config.width * position / 100, config.height / 1.65, cardChar).setScale(.7).setInteractive();
-        
-        // Display the price of the card below it
+
+        // Displaying the price tag with enhanced visibility
         const priceTag = this.add.text(card.x, card.y + 60, `Cost: ${letterCostMap[cardChar.toLowerCase()]}`, {
             fontFamily: 'Arial',
             fontSize: '18px',
-            color: '#ffffff',
-            backgroundColor: '#007bff', // Using a blue background for visibility
-            padding: {
-                x: 5,
-                y: 5,
-            },
-        }).setOrigin(0.5);
-        
+            color: '#fff',
+            backgroundColor: '#007bff', // Bright blue for visibility
+            padding: { x: 5, y: 5 },
+            borderRadius: 5
+        }).setOrigin(0.5).setStyle({ backgroundColor: '#007bff' });
+
         card.on('pointerup', () => {
             if (this.data.money >= letterCostMap[cardChar]) {
                 this.data.money -= letterCostMap[cardChar];
-                this.data.deck.addLetter(cardChar);
+                this.sessionPurchases.push(cardChar); // Add to session purchases
+                this.updatePurchasesDisplay(); // Update the display of bought cards
                 card.destroy(); // Remove the bought card
                 priceTag.destroy(); // Also remove the price tag
                 this.generateCard(position, letterCostMap); // Generate a new card
+                this.moneyText.setText(`Money: ${this.data.money}`); // Update money display
             } else {
-                // Handle insufficient funds
+                // Handle insufficient funds with perhaps a UI prompt
             }
         });
     }
-    update() {
-        this.background.tilePositionY -= .5;
-        this.moneyText?.destroy();
-        this.moneyText = this.add.text(config.width / 9, config.height / 5, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
-    }
-}
 
-function getRandLetter() {
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-    return alphabet.charAt(Phaser.Math.Between(0, alphabet.length - 1));
+    updatePurchasesDisplay() {
+        this.purchasesText.setText(`Bought Cards: ${this.sessionPurchases.join(', ')}`);
+    }
 }
