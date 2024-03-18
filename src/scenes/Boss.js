@@ -26,6 +26,7 @@ class Boss extends Phaser.Scene {
 
         this.currScore = 0;
         this.currMult = 1;
+        this.currWord = "";
 
 
 
@@ -137,6 +138,16 @@ class Boss extends Phaser.Scene {
                 this.scene.start('Shop', this.data);
             }
         }
+
+        // Add a text field to display this.currWord
+        this.wordText = this.add.text(config.width / 2, config.height / 2, this.currWord, {
+            fontFamily: 'Arial',
+            fontSize: '24px',
+            color: '#ffffff',
+            backgroundColor: '#000000',
+            padding: { x: 10, y: 5 }
+        }).setOrigin(0.5);
+
     }
 
     displayPlayerHand() {
@@ -190,7 +201,7 @@ class Boss extends Phaser.Scene {
         
         card.on('pointerup', () => {
                 this.currScore += letterScores[cardChar];
-                this.curString += letterScores.getLetter;
+                this.currWord += letterScores.getLetter;
         });
     }
 
