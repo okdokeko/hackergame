@@ -18,6 +18,7 @@ class Main extends Phaser.Scene {
         this.load.audio("onClick", "/src/assets/button.mp3");
         this.load.image("shop", "/src/assets/shop.png");
         this.load.bitmapFont('vermin', '/src/assets/vermin.png', '/src/assets/vermin.xml');
+        this.load.image("flame", "/src/assets/flame1.png");
 
 
         for (let i = 1; i <= 10; i++) {
