@@ -92,7 +92,7 @@ class Boss extends Phaser.Scene {
         this.background.tilePositionX += 0.5;
 
         this.currHealthBar?.destroy();
-        this.currHealthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, (config.width / 3) * (this.bossCurrHealth / this.bossMaxHealth), config.height / 15, 'gold');
+        this.currHealthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, (config.width / 3) * (this.bossCurrHealth / this.bossMaxHealth), config.height / 15, 0xFF0000);
 
         this.bossCurrHealth -= 1; // Placeholder for actual game mechanics
 
