@@ -22,6 +22,11 @@ class Start extends Phaser.Scene {
         };
         data.deck.initDeck();  
     
+
+        //Background music
+        var music = this.sound.add("startScreenMusic", {loop: true});
+        music.play();
+
         // Add a background image
         this.background = this.add.tileSprite(0, 0, config.width, config.height, "startBackground");
         this.background.setOrigin(0);
