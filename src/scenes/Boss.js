@@ -204,6 +204,17 @@ class Boss extends Phaser.Scene {
         const cardChar = this.data.deck.getRandomLetter();
         const card = this.add.image(config.width * position / 100, config.height / 1.3, cardChar).setScale(.4).setInteractive();
 
+        const priceTag = this.add.text(card.x, card.y + 60, `Score: ${letterScores[cardChar.toLowerCase()]}`, {
+            fontFamily: 'Arial',
+            fontSize: '18px',
+            color: '#ffffff',
+            backgroundColor: '#550674', // Using a blue background for visibility
+            padding: {
+                x: 5,
+                y: 5,
+            },
+        }).setOrigin(0.5);
+
         card.on('pointerup', () => {
             this.currScore += letterScores[cardChar]; // Correctly adds the score based on the letter
             this.currWord += cardChar; // Correctly appends the letter to the current word
