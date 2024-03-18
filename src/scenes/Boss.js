@@ -39,7 +39,7 @@ class Boss extends Phaser.Scene {
 
         const healthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, config.width / 3, config.height / 15, 'red');
 
-        const hpText = this.add.text(this.bossImage.x + config.width / 2.5, config.height / 5 - 30, "HP", {
+        const hpText = this.add.text(this.bossImage.x + config.width / 2.5, config.height / 6 - 30, "HP", {
             fontFamily: 'Arial',
             fontSize: '18px',
             color: '#ffffff',
