@@ -8,7 +8,6 @@ class Boss extends Phaser.Scene {
         this.bossMaxHealth = 100 * this.data.level;
         this.bossCurrHealth = this.bossMaxHealth;
 
-        this.data = data;
         // Ensure the deck is initialized for the session
         if (!this.data.deck) {
             this.data.deck = new Deck();
