@@ -100,8 +100,14 @@ class Start extends Phaser.Scene {
             }
         }).setOrigin(0.5).setInteractive();
         // Add an event listener to the music button
-        musicButton.on('pointerdown', () => {
+        musicButton.on('pointerdown'), () => {
             music.stop();
+        //Add version note
+        }
+        this.add.text(config.width * 1/ 100, config.height * 90 / 100, "Version: 2.1.2", {
+            fontFamily: 'Arial',
+            fontSize: '32px',
+            color: '#ffffff',
         });
 
     }
@@ -121,6 +127,16 @@ class Deck {
         this.tail = null;
         this.length = 0;
     }
+
+getAllLetters() {
+    let letters = [];
+    let current = this.head;
+    while (current != null) {
+        letters.push(current.letter);
+        current = current.next;
+    }
+    return letters;
+}
 
     addLetter(letterObj) {
         const node = {
