@@ -101,6 +101,16 @@ class Deck {
         this.length = 0;
     }
 
+getAllLetters() {
+    let letters = [];
+    let current = this.head;
+    while (current != null) {
+        letters.push(current.letter);
+        current = current.next;
+    }
+    return letters;
+}
+
     addLetter(letterObj) {
         const node = {
             letter: letterObj,

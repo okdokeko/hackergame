@@ -60,18 +60,30 @@ class Shop extends Phaser.Scene {
         const cardChar = Phaser.Math.RND.pick(Object.keys(letterCostMap));
         const card = this.add.image(config.width * position / 100, config.height / 1.65, cardChar).setScale(.7).setInteractive();
         
+        // Display the price of the card below it
+        const priceTag = this.add.text(card.x, card.y + 60, `Cost: ${letterCostMap[cardChar.toLowerCase()]}`, {
+            fontFamily: 'Arial',
+            fontSize: '18px',
+            color: '#ffffff',
+            backgroundColor: '#007bff', // Using a blue background for visibility
+            padding: {
+                x: 5,
+                y: 5,
+            },
+        }).setOrigin(0.5);
+        
         card.on('pointerup', () => {
             if (this.data.money >= letterCostMap[cardChar]) {
                 this.data.money -= letterCostMap[cardChar];
                 this.data.deck.addLetter(cardChar);
                 card.destroy(); // Remove the bought card
+                priceTag.destroy(); // Also remove the price tag
                 this.generateCard(position, letterCostMap); // Generate a new card
             } else {
                 // Handle insufficient funds
             }
         });
     }
-
     update() {
         this.background.tilePositionY -= .5;
         this.moneyText?.destroy();
