@@ -23,8 +23,9 @@ class Start extends Phaser.Scene {
         data.deck.initDeck();  
     
 
-        //Background music
+        //Sounds
         var music = this.sound.add("startScreenMusic", {loop: true});
+        var click = this.sound.add("onClick", {loop: false, volume: .3});
         music.play();
 
         // Add a background image
@@ -149,7 +150,10 @@ class Start extends Phaser.Scene {
             fontSize: '32px',
             color: '#ffffff',
         });
-
+        //On click effect
+        this.input.on('pointerdown', () => {
+            click.play();
+        });
     }
     
 
@@ -209,32 +213,9 @@ class Deck {
     initDeck(){
 
         const letters = [
-            'a',
-            'b',
-            'c',
-            'd',
-            'e',
-            'f',
-            'g',
-            'h',
-            'i',
-            'j',
-            'k',
-            'l',
-            'm',
-            'n',
-            'o',
-            'p',
-            'q',
-            'r',
-            's',
-            't',
-            'u',
-            'v',
-            'w',
-            'x',
-            'y',
-            'z'
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+            'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+            'w', 'x', 'y', 'z'
         ];
     
         const initiDeckSize = 1;

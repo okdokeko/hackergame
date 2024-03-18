@@ -10,8 +10,17 @@ class Boss extends Phaser.Scene {
     }
 
     create() {
-        const backgroundColor = Phaser.Display.Color.GetColor(255 - this.data.level * 15, 204 - this.data.level * 15, 204 - this.data.level * 15);
-        this.cameras.main.setBackgroundColor(backgroundColor);
+        // Add a background image
+        this.background = this.add.tileSprite(0, 0, 5400, 3400, "bossBackground").setScale(.5);
+        this.background.setOrigin(0);
+
+        // Calculate the color of the overlay based on the level
+        const overlayColor = Phaser.Display.Color.GetColor(255 - this.data.level * 15, 204 - this.data.level * 15, 204 - this.data.level * 15);
+
+        // Add a rectangle to act as the overlay
+        this.overlay = this.add.rectangle(0, 0, config.width, config.height, overlayColor);
+        this.overlay.setOrigin(0);
+        this.overlay.setAlpha(.1);
 
         this.bossName = this.getBossNameByLevel(this.data.level);
         const textBox = this.add.text(config.width / 2, config.height / 10, `Boss ${this.data.level}: ${this.bossName}`, {
@@ -30,7 +39,7 @@ class Boss extends Phaser.Scene {
 
         const healthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, config.width / 3, config.height / 15, 'red');
 
-        const hpText = this.add.text(this.bossImage.x + config.width / 2.5, config.height / 5 - 30, "HP", {
+        const hpText = this.add.text(this.bossImage.x + config.width / 2.5, config.height / 6 - 30, "HP", {
             fontFamily: 'Arial',
             fontSize: '18px',
             color: '#ffffff',
@@ -57,17 +66,33 @@ class Boss extends Phaser.Scene {
         const goldLine = this.add.rectangle(healthBar.x, healthBar.y + 220, config.width / 3, 2, 0xffd700);
         goldLine.setStrokeStyle(4, 0x000000);
 
-        this.moneyText = this.add.text(config.width / 9, config.height / 10, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
+        // Add white rectangle behind money text
+        const moneyBackground = this.add.rectangle(config.width / 9, config.height / 10, 150, 30, 0xffffff);
+        moneyBackground.setOrigin(0.5);
 
+        // Display money
+        this.moneyText = this.add.text(config.width / 9, config.height / 10, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
+        this.moneyText.setOrigin(0.5);
+
+        // Add white rectangle behind level text
+        const levelBackground = this.add.rectangle(config.width / 4, config.height / 10, 150, 30, 0xffffff);
+        levelBackground.setOrigin(0.5);
+
+        // Display level
         this.levelText = this.add.text(config.width / 4, config.height / 10, `Level: ${this.data.level}`, { font: "25px Arial", fill: "black" });
+        this.levelText.setOrigin(0.5);
+
 
         // Display the player's current hand
         this.displayPlayerHand();
     }
 
     update() {
+        this.background.tilePositionY -= 0.5;
+        this.background.tilePositionX += 0.5;
+
         this.currHealthBar?.destroy();
-        this.currHealthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, (config.width / 3) * (this.bossCurrHealth / this.bossMaxHealth), config.height / 15, 'gold');
+        this.currHealthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, (config.width / 3) * (this.bossCurrHealth / this.bossMaxHealth), config.height / 15, 0xFF0000);
 
         this.bossCurrHealth -= 1; // Placeholder for actual game mechanics
 
@@ -123,7 +148,7 @@ class Boss extends Phaser.Scene {
             "", // Index 0 unused
             "Bennet Jackson", "William Rains", "Phoenix Garcia", "Maximilian Mace",
             "Ahmad Quereshi", "Sam Perry", "Sam Moreno", "Hippopotamus",
-            "Bacon Hair", "Gordis"
+            "Bacon Hair", "Gordis, Devourer of Worlds"
         ];
         return names[level] || ""; // Default to empty string if level is out of bounds
     }
