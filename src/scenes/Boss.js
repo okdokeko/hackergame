@@ -223,7 +223,7 @@ class Boss extends Phaser.Scene {
                 this.bossCurrHealth = 0;
             }
 
-            this.updateBossHealthDisplay();
+            //this.updateBossHealthDisplay();
             console.log(`Dealt ${totalDamage} damage. Boss health: ${this.bossCurrHealth}`);
             this.currWord = "";
 
@@ -231,16 +231,17 @@ class Boss extends Phaser.Scene {
             if (this.bossCurrHealth <= 0) {
                 // Example: Move to the next level, reward player, etc.
                 console.log("Boss defeated!");
-                this.handleBossDefeat(); // Implement this according to your game's logic
+                //this.handleBossDefeat(); // Implement this according to your game's logic
             }
         }
     }
 
-    // Ensure to implement this method to update the visual representation of the boss's health
-    updateBossHealthDisplay() {
-        this.healthBar.scaleX = this.bossCurrHealth / this.bossMaxHealth;
-        this.healthText.setText(`${this.bossCurrHealth} / ${this.bossMaxHealth}`);
-    }
+    //   //unused and excluded 
+    //// Ensure to implement this method to update the visual representation of the boss's health
+    //updateBossHealthDisplay() {
+    //    this.healthBar.scaleX = this.bossCurrHealth / this.bossMaxHealth;
+    //    this.healthText.setText(`${this.bossCurrHealth} / ${this.bossMaxHealth}`);
+    //}
 
 
 }
