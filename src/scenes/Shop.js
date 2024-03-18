@@ -36,7 +36,7 @@ class Shop extends Phaser.Scene {
         this.generateCards(letterCostMap);
 
         this.add.rectangle(config.width * 7 / 10, config.height / 6, config.width * 4.6 / 10, config.height * 1.5 / 10, 0xB22222, .9)
-        const bossButton = this.add.bitmapText(config.width * 7.05 / 10, config.height / 6,'vermin', 'CHALLENGE THE BOSS →', 60)
+        const bossButton = this.add.bitmapText(config.width * 7.05 / 10, config.height / 6,'vermin', 'CHALLENGE THE SIGMA →', 60)
         bossButton.setOrigin(0.5).setInteractive();
 
         bossButton.on('pointerup', () => {

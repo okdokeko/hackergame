@@ -32,14 +32,6 @@ class Start extends Phaser.Scene {
         this.background = this.add.tileSprite(0, 0, config.width, config.height, "startBackground");
         this.background.setOrigin(0);
         this.background.setScale(2);
-    
-        // Add a title text
-        /*this.add.text(config.width / 2, 100, 'Welcome to WordGame', {
-            fontFamily: 'Luminari',
-            fontSize: config.width / 20 + 'px',
-            color: '#ffffff',
-            fontWeight: 'bold'
-        }).setOrigin(0.5);*/
 
         //Add Logo
         this.add.particles(config.width * 5 / 10, config.height * 15/100, 'red', {
