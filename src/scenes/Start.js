@@ -129,15 +129,15 @@ class Deck {
         this.length = 0;
     }
 
-getAllLetters() {
-    let letters = [];
-    let current = this.head;
-    while (current != null) {
-        letters.push(current.letter);
-        current = current.next;
+    getAllLetters() {
+        let letters = [];
+        let current = this.head;
+        while (current != null) {
+            letters.push(current.letter);
+            current = current.next;
+        }
+        return letters;
     }
-    return letters;
-}
 
     addLetter(letterObj) {
         const node = {
@@ -170,35 +170,35 @@ getAllLetters() {
     initDeck(){
 
         const letters = [
-            'A',
-            'B',
-            'C',
-            'D',
-            'E',
-            'F',
-            'G',
-            'H',
-            'I',
-            'J',
-            'K',
-            'L',
-            'M',
-            'N',
-            'O',
-            'P',
-            'Q',
-            'R',
-            'S',
-            'T',
-            'U',
-            'V',
-            'W',
-            'X',
-            'Y',
-            'Z'
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z'
         ];
     
-        const initiDeckSize = 40;
+        const initiDeckSize = 1;
         for (let i = 0; i < initiDeckSize; i++) {
             const randomIndex = Math.floor(Math.random() * letters.length);
             const randomLetter = letters[randomIndex]; // Generating random letter object
