@@ -196,7 +196,6 @@ class Boss extends Phaser.Scene {
                 // Handle insufficient funds
             }
         });
-
     }
 
 

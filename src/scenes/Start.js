@@ -224,5 +224,10 @@ class Deck {
             const randomLetter = letters[randomIndex]; // Generating random letter object
             this.addLetter(randomLetter); // Adding letter object to the deck
         }
+        this.addLetter('a');
+        this.addLetter('e');
+        this.addLetter('i');
+        this.addLetter('o');
+        this.addLetter('u');
     }
 }
