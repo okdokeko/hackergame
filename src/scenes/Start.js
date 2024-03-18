@@ -33,23 +33,56 @@ class Start extends Phaser.Scene {
         this.background.setScale(2);
     
         // Add a title text
-        this.add.text(config.width / 2, 100, 'Welcome to WordGame', {
+        /*this.add.text(config.width / 2, 100, 'Welcome to WordGame', {
             fontFamily: 'Luminari',
             fontSize: config.width / 20 + 'px',
             color: '#ffffff',
             fontWeight: 'bold'
-        }).setOrigin(0.5);
+        }).setOrigin(0.5);*/
+
+        //Add Logo
+        this.add.particles(config.width * 5 / 10, config.height * 15/100, 'red', {
+            speed: 200,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD'
+        });
+        this.add.particles(config.width * 2 / 10, config.height * 15/100, 'red', {
+            speed: 200,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD'
+        });
+        this.add.particles(config.width * 3 / 10, config.height * 15/100, 'red', {
+            speed: 200,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD'
+        });
+        this.add.particles(config.width * 6 / 10, config.height * 15/100, 'red', {
+            speed: 200,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD'
+        });
+        this.add.particles(config.width * 7 / 10, config.height * 15/100, 'red', {
+            speed: 200,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD'
+        });
+        //this.add.rectangle(config.width / 2, config.height * 20/100, config.width * 66 / 100, config.height * 20 / 100, 0xB8860B, 1);
+        this.add.image(config.width / 2, config.height * 20/100, "title_holder").setScale(.15,.06);
+        this.logo = this.add.image(config.width / 2, 150, 'logo');
+        this.logo.setScale(1.5);
     
         // Add a start button
-        const startButton = this.add.text(config.width / 2, 200, 'Start', {
+        const startButton = this.add.text(config.width / 2, 300, 'Start', {
             fontFamily: 'Arial',
             fontSize: '32px',
             color: '#ffffff',
-            backgroundColor: '#000000',
+            backgroundColor: '#B8860B',
             padding: {
                 x: 16,
                 y: 8
-            }
+            },
+            stroke: '#000000',
+            strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
     
         // Add an event listener to the start button
@@ -58,15 +91,17 @@ class Start extends Phaser.Scene {
         });
     
         // Add a tutorial button
-        const tutorialButton = this.add.text(config.width / 2, 300, 'Tutorial', {
+        const tutorialButton = this.add.text(config.width / 2, 400, 'Tutorial', {
             fontFamily: 'Arial',
             fontSize: '32px',
             color: '#ffffff',
-            backgroundColor: '#000000',
+            backgroundColor: '#B8860B',
             padding: {
                 x: 16,
                 y: 8
-            }
+            },
+            stroke: '#000000',
+            strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
         // Add an event listener to the tutorial button
         tutorialButton.on('pointerdown', () => {
@@ -74,30 +109,34 @@ class Start extends Phaser.Scene {
         });
     
         // Add a credits button
-        const creditsButton = this.add.text(config.width / 2, 400, 'Credits', {
+        const creditsButton = this.add.text(config.width / 2, 500, 'Credits', {
             fontFamily: 'Arial',
             fontSize: '32px',
             color: '#ffffff',
-            backgroundColor: '#000000',
+            backgroundColor: '#B8860B',
             padding: {
                 x: 16,
                 y: 8
-            }
+            },
+            stroke: '#000000',
+            strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
         // Add an event listener to the credits button
         creditsButton.on('pointerdown', () => {
             this.scene.start('Credits');
         });
 
-        const musicButton = this.add.text(config.width / 2, 500, 'Music Off (Recommended experience)', {
+        const musicButton = this.add.text(config.width / 2, 600, 'Music Off (Recommended experience)', {
             fontFamily: 'Arial',
             fontSize: '12px',
             color: '#ffffff',
-            backgroundColor: '#000000',
+            backgroundColor: '#B8860B',
             padding: {
                 x: 16,
                 y: 8
-            }
+            },
+            stroke: '#000000',
+            strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
         // Add an event listener to the music button
         musicButton.on('pointerdown', () => {

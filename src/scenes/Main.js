@@ -11,6 +11,9 @@ class Main extends Phaser.Scene {
         this.load.image("startBackground", "/src/assets/startBackground.jpg");
         this.load.image("trophy", "/src/assets/trophy.png");
         this.load.audio("startScreenMusic", "/src/assets/music.mp3");
+        this.load.image("logo", "/src/assets/logo.png");
+        this.load.image("red", "/src/assets/red.png");
+        this.load.image("title_holder", "/src/assets/title_holder.png");
 
 
         for (let i = 1; i <= 10; i++) {
@@ -20,6 +23,8 @@ class Main extends Phaser.Scene {
         for (let letter of 'abcdefghijklmnopqrstuvwxyz') {
             this.load.image(letter, `/src/assets/alphabet/${letter}.png`);
         }
+
+
 //add dictionary to load maybe?
 
     }
