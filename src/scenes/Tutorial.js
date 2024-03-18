@@ -45,7 +45,7 @@ How to Play:
         instructionsObject.setOrigin(0.5);
     
         // Add button
-        this.add.rectangle(config.width / 2, config.height - 70, 200, 80, 0x00ff00).setOrigin(0.5);
+        this.add.rectangle(config.width / 2, config.height - 70, 180, 60, 0x00ff00).setOrigin(0.5);
         const button = this.add.text(config.width / 2, config.height - 70, 'Main Menu', { fontSize: '24px', fill: '#000' }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
             this.scene.start('Start');
         });
