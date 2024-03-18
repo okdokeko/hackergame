@@ -4,6 +4,7 @@ class Boss extends Phaser.Scene {
     }
 
     init(data) {
+        // initial data for the scene 
         this.data = data;
         this.bossMaxHealth = 100 * this.data.level;
         this.bossCurrHealth = this.bossMaxHealth;
@@ -17,7 +18,7 @@ class Boss extends Phaser.Scene {
 
     create() {
 
-        // Assuming a predefined letterCostMap and config object exists
+        // A predefined map between letters and scores. Based on scrabble 
         const letterScores = {
             'a': 1, 'e': 1, 'i': 1, 'o': 1, 'u': 1, 'l': 1, 'n': 1, 's': 1, 't': 1, 'r': 1,
             'd': 2, 'g': 2,
