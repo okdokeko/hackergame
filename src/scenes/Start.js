@@ -100,10 +100,11 @@ class Start extends Phaser.Scene {
             }
         }).setOrigin(0.5).setInteractive();
         // Add an event listener to the music button
-        musicButton.on('pointerdown'), () => {
+        musicButton.on('pointerdown', () => {
             music.stop();
+        });
+
         //Add version note
-        }
         this.add.text(config.width * 1/ 100, config.height * 90 / 100, "Version: 2.1.2", {
             fontFamily: 'Arial',
             fontSize: '32px',
