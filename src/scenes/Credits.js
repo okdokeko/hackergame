@@ -9,7 +9,7 @@ class Credits extends Phaser.Scene {
 
         this.add.text(config.width / 2, 200, 'Credits', { fontSize: '24px', fill: '#000000' }).setOrigin(0.5);
         this.add.text(config.width / 2, 250, 'Software - Samuel Moreno, Maximilian Mace, Phoenix Garcia, William Rains', { fontSize: '16px', fill: '#000000' }).setOrigin(0.5);
-        this.add.text(config.width / 2, 280, 'Assets - Maximilian Mace', { fontSize: '16px', fill: '#000000' }).setOrigin(0.5);
+        this.add.text(config.width / 2, 280, 'Assets - Maximilian Mace, Samuel Moreno', { fontSize: '16px', fill: '#000000' }).setOrigin(0.5);
         this.add.text(config.width / 2, 310, 'Music - William Rains', { fontSize: '16px', fill: '#000000' }).setOrigin(0.5);
         this.add.text(config.width / 2, 340, 'Inspired by Balatro', { fontSize: '16px', fill: '#000000' }).setOrigin(0.5);
         // Add any other elements or animations you want for your credits scene
