@@ -7,9 +7,28 @@ class Boss extends Phaser.Scene {
         this.data = data;
         this.bossMaxHealth = 100 * this.data.level;
         this.bossCurrHealth = this.bossMaxHealth;
+
+        this.data = data;
+        // Ensure the deck is initialized for the session
+        if (!this.data.deck) {
+            this.data.deck = new Deck();
+        }
+
     }
 
     create() {
+
+        // Assuming a predefined letterCostMap and config object exists
+        const letterCostMap = {
+            'a': 3, 'b': 2, 'c': 1, 'd': 2, 'e': 3, 'f': 2, 'g': 1, 'h': 2, 'i': 3,
+            'j': 2, 'k': 2, 'l': 1, 'm': 2, 'n': 3, 'o': 3, 'p': 2, 'q': 2, 'r': 3,
+            's': 3, 't': 3, 'u': 2, 'v': 2, 'w': 2, 'x': 2, 'y': 2, 'z': 1
+        };
+
+
+
+///////////////////////////
+
         // Add a background image
         this.background = this.add.tileSprite(0, 0, 5400, 3400, "bossBackground").setScale(.5);
         this.background.setOrigin(0);
@@ -35,7 +54,7 @@ class Boss extends Phaser.Scene {
         this.bossImage.displayWidth = 400;
         this.bossImage.displayHeight = 250;
 
-        const rect = this.add.rectangle(config.width / 2, config.height / 1.3, config.width / 2, config.height / 3, 0x000000);
+        // const rect = this.add.rectangle(config.width / 2, config.height / 1.3, config.width / 2, config.height / 3, 0x000000);
 
         const healthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, config.width / 3, config.height / 15, 'red');
 
@@ -47,13 +66,13 @@ class Boss extends Phaser.Scene {
             padding: { x: 10, y: 5 }
         }).setOrigin(0.5);
 
-        const handText = this.add.text(config.width / 2, config.height / 1.15, "Current Hand", {
-            fontFamily: 'Arial',
-            fontSize: '24px',
-            color: '#ffffff',
-            backgroundColor: '#000000',
-            padding: { x: 10, y: 5 }
-        }).setOrigin(0.5);
+        // const handText = this.add.text(config.width / 2, config.height / 1.15, "Current Hand", {
+        //     fontFamily: 'Arial',
+        //     fontSize: '24px',
+        //     color: '#ffffff',
+        //     backgroundColor: '#000000',
+        //     padding: { x: 10, y: 5 }
+        // }).setOrigin(0.5);
 
         const playWordText = this.add.text(this.bossImage.x + config.width / 2.5, config.height / 5 + 60, "Play Word", {
             fontFamily: 'Arial',
@@ -84,7 +103,10 @@ class Boss extends Phaser.Scene {
 
 
         // Display the player's current hand
-        this.displayPlayerHand();
+        // this.displayPlayerHand();
+
+        this.generateCardsz(letterCostMap);
+
     }
 
     update() {
@@ -94,7 +116,7 @@ class Boss extends Phaser.Scene {
         this.currHealthBar?.destroy();
         this.currHealthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, (config.width / 3) * (this.bossCurrHealth / this.bossMaxHealth), config.height / 15, 0xFF0000);
 
-        this.bossCurrHealth -= 1; // Placeholder for actual game mechanics
+        //this.bossCurrHealth -= 1; // Placeholder for actual game mechanics
 
         const healthText = this.add.text(this.bossImage.x + config.width / 2.5, config.height / 5, `${this.bossCurrHealth} / ${this.bossMaxHealth}`, {
             fontFamily: 'Arial',
@@ -152,4 +174,31 @@ class Boss extends Phaser.Scene {
         ];
         return names[level] || ""; // Default to empty string if level is out of bounds
     }
+
+    generateCardsz(letterCostMap) {
+        const positions = [14, 26, 38, 50, 62, 74, 86];
+        positions.forEach(position => {
+            this.generateCardz(position, letterCostMap);
+        });
+    }
+
+    generateCardz(position, letterCostMap) {
+        const cardChar = Phaser.Math.RND.pick(Object.keys(letterCostMap));
+        const card = this.add.image(config.width * position / 100, config.height / 1.3, cardChar).setScale(.4).setInteractive();        
+
+        
+        card.on('pointerup', () => {
+            if (this.data.money >= letterCostMap[cardChar]) {
+                this.data.money -= letterCostMap[cardChar];
+                this.data.deck.addLetter(cardChar);
+                card.destroy(); // Remove the bought card
+                this.generateCardz(position, letterCostMap); // Generate a new card
+            } else {
+                // Handle insufficient funds
+            }
+        });
+
+    }
+
+
 }
