@@ -14,8 +14,9 @@ class Start extends Phaser.Scene {
     }
 
     create() {
+        //data that gets passed between scenes
         var data = {
-            money: 10, // initial money tbd
+            money: 10,
             score: 0,
             deck: new Deck(), 
             level: 1,
@@ -23,7 +24,7 @@ class Start extends Phaser.Scene {
         data.deck.initDeck();  
     
 
-        //Sounds
+        // Add sound
         var music = this.sound.add("startScreenMusic", {loop: true});
         var click = this.sound.add("onClick", {loop: false, volume: .3});
         music.play();
@@ -32,16 +33,8 @@ class Start extends Phaser.Scene {
         this.background = this.add.tileSprite(0, 0, config.width, config.height, "startBackground");
         this.background.setOrigin(0);
         this.background.setScale(2);
-    
-        // Add a title text
-        /*this.add.text(config.width / 2, 100, 'Welcome to WordGame', {
-            fontFamily: 'Luminari',
-            fontSize: config.width / 20 + 'px',
-            color: '#ffffff',
-            fontWeight: 'bold'
-        }).setOrigin(0.5);*/
 
-        //Add Logo
+        // Add particle effects
         this.add.particles(config.width * 5 / 10, config.height * 15/100, 'red', {
             speed: 200,
             scale: { start: 1, end: 0 },
@@ -67,7 +60,8 @@ class Start extends Phaser.Scene {
             scale: { start: 1, end: 0 },
             blendMode: 'ADD'
         });
-        //this.add.rectangle(config.width / 2, config.height * 20/100, config.width * 66 / 100, config.height * 20 / 100, 0xB8860B, 1);
+
+        // Add logo
         this.add.image(config.width / 2, config.height * 20/100, "title_holder").setScale(.15,.06);
         this.logo = this.add.image(config.width / 2, 150, 'logo');
         this.logo.setScale(1.5);
@@ -104,6 +98,7 @@ class Start extends Phaser.Scene {
             stroke: '#000000',
             strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
+
         // Add an event listener to the tutorial button
         tutorialButton.on('pointerdown', () => {
             this.scene.start('Tutorial');
@@ -122,11 +117,13 @@ class Start extends Phaser.Scene {
             stroke: '#000000',
             strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
+
         // Add an event listener to the credits button
         creditsButton.on('pointerdown', () => {
             this.scene.start('Credits');
         });
 
+        // Add a button to toggle music
         const musicButton = this.add.text(config.width / 2, 600, 'Music Off (Recommended experience)', {
             fontFamily: 'Arial',
             fontSize: '12px',
@@ -145,12 +142,13 @@ class Start extends Phaser.Scene {
         });
 
         //Add version note
-        this.add.text(config.width * 1/ 100, config.height * 90 / 100, "Version: 2.3.2", {
+        this.add.text(config.width * 1/ 100, config.height * 90 / 100, "Version: 2.3.3", {
             fontFamily: 'Arial',
             fontSize: '32px',
             color: '#ffffff',
         });
-        //On click effect
+
+        //On click sound effect
         this.input.on('pointerdown', () => {
             click.play();
         });
@@ -158,6 +156,7 @@ class Start extends Phaser.Scene {
     
 
     update() {
+        // create background motion
         this.background.tilePositionY -= 0.5;
         this.background.tilePositionX += 0.5;
     }
@@ -165,13 +164,15 @@ class Start extends Phaser.Scene {
 
 
 class Deck {
-    
+    // A linked list that is used to implement the deck
+    // The nodes contain char data and nodes to traverse
     constructor() {
         this.head = null; // Added head property
         this.tail = null;
         this.length = 0;
     }
 
+    //returns array of all letters
     getAllLetters() {
         let letters = [];
         let current = this.head;
@@ -182,6 +183,7 @@ class Deck {
         return letters;
     }
 
+    //adds a letter to the end of the list
     addLetter(letterObj) {
         const node = {
             letter: letterObj,
@@ -197,6 +199,7 @@ class Deck {
         this.length++;
     }
 
+    //removes a letter from the front of the list
     removeLetter() {
         if (this.head === null) {
             return null;
@@ -210,6 +213,7 @@ class Deck {
         return letter;
     }
 
+    //returns a random letter from the list 
     getRandomLetter() {
         if (this.length === 0) {
             return null;
@@ -222,6 +226,7 @@ class Deck {
         return current.letter;
     }
 
+    //initializes the deck, and ensures some vowels
     initDeck(){
 
         const letters = [
@@ -230,15 +235,19 @@ class Deck {
             'w', 'x', 'y', 'z'
         ];
     
-        const initiDeckSize = 1;
+        const initiDeckSize = 8;
         for (let i = 0; i < initiDeckSize; i++) {
             const randomIndex = Math.floor(Math.random() * letters.length);
             const randomLetter = letters[randomIndex]; // Generating random letter object
             this.addLetter(randomLetter); // Adding letter object to the deck
         }
         this.addLetter('a');
+        this.addLetter('a');
+        this.addLetter('e');
         this.addLetter('e');
         this.addLetter('i');
+        this.addLetter('i');
+        this.addLetter('o');
         this.addLetter('o');
         this.addLetter('u');
     }

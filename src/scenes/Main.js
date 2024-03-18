@@ -7,6 +7,7 @@ class Main extends Phaser.Scene {
         
     }
     preload(){
+        //loading all assets we need
         this.load.image("shopBackground", "/src/assets/shopBackground.jpg");
         this.load.image("startBackground", "/src/assets/startBackground.jpg");
         this.load.image("bossBackground", "/src/assets/bossBackground.jpg");
@@ -20,7 +21,6 @@ class Main extends Phaser.Scene {
         this.load.bitmapFont('vermin', '/src/assets/vermin.png', '/src/assets/vermin.xml');
         this.load.image("flame", "/src/assets/flame1.png");
 
-
         for (let i = 1; i <= 10; i++) {
             this.load.image(`boss${i}`, `/src/assets/bosses/boss${i}.jpg`);
         }
@@ -28,14 +28,11 @@ class Main extends Phaser.Scene {
         for (let letter of 'abcdefghijklmnopqrstuvwxyz') {
             this.load.image(letter, `/src/assets/alphabet/${letter}.png`);
         }
-
-
-//add dictionary to load maybe?
-
     }
 
     create() {
         this.add.text(20,20, "Loading game...");
+        //our first scene
         this.scene.start("Start");
     }
 }
