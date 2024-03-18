@@ -115,6 +115,7 @@ class Boss extends Phaser.Scene {
             if (this.data.level == 11) {
                 this.scene.start('Win');
             } else {
+                this.data.money += 10 * this.data.level;
                 this.scene.start('Shop', this.data);
             }
         }
