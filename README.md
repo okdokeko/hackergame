@@ -2,6 +2,19 @@
  mewers
  'documentation' https://docs.google.com/document/d/1qulZxqb0ykvaMYeg1E4vAU6W3Bzf1skhGS0jIsoFAGw/edit?usp=sharing
 
+# How to run
+This website requires a web server to run. If you have mamp or wamp installed you can use that. 
+
+Alternatively, we recommend using VSCode and the live server extension. Steps for this are as follows:
+1. Install VSCode, VSCode has javascript interpretation built in
+2. Go to extensions on the left bar
+3. Look up Live Server by Ritwick Dey
+4. Install this extension
+5. Download all of our files. 
+6. Open the folder and select the index.html file
+7. On the bottom right there is a button named Go Live, click it
+8. The web game should open up in your browser
+
 # About our game
 Hello! This is our submission to the 2024 Spring UA Hackathon. 
 This is Sigma Blasters, a rogue-lite deckbuilding word game. First, you'll be given a deck of letters and some money to purchase additional letters from the shop.
