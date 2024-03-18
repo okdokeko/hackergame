@@ -4,7 +4,7 @@ class Win extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('trophy', 'path/to/trophy.png');
+        this.load.image('trophy');
     }
 
     create() {
