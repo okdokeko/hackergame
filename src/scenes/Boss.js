@@ -19,7 +19,7 @@ class Boss extends Phaser.Scene {
     create() {
 
         // A predefined map between letters and scores. Based on scrabble 
-        const letterScores = {
+        this.letterScores = {
             'a': 1, 'e': 1, 'i': 1, 'o': 1, 'u': 1, 'l': 1, 'n': 1, 's': 1, 't': 1, 'r': 1,
             'd': 2, 'g': 2,
             'b': 3, 'c': 3, 'm': 3, 'p': 3,
@@ -105,13 +105,12 @@ class Boss extends Phaser.Scene {
         });
 
         // Generate cards
-        this.generateCardsz(letterScores);
+        this.generateCardsz(this.letterScores);
 
         // Event handler for Play Word button
         playWordText.setInteractive();
         playWordText.on('pointerdown', () => {
             this.submitCurrentWord();
-            this.currWord = "";
         }
         );
     }
@@ -212,29 +211,35 @@ class Boss extends Phaser.Scene {
     }
     submitCurrentWord() {
         if (this.currWord.length > 0) {
-
-            const damagePerLetter = 5; // Each letter causes 5 I am sorry
-
-            const totalDamage = this.currWord.length * damagePerLetter;
-
+            // Initialize wordScore variable
+            let wordScore = 0;
+            
+            // Calculate wordScore based on letterScores
+            for (let i = 0; i < this.currWord.length; i++) {
+                const letter = this.currWord[i];
+                wordScore += this.letterScores[letter] || 0; // Ensure letterScores exist for the letter
+            }
+    
+            // Calculate total damage
+            const totalDamage = (this.currWord.length - 2) * wordScore;
+    
+            // Update boss's current health
             this.bossCurrHealth -= totalDamage;
-
+    
+            // Ensure boss's health doesn't go below 0
             if (this.bossCurrHealth < 0) {
                 this.bossCurrHealth = 0;
             }
-
+    
+            // Update boss's health display
             this.updateBossHealthDisplay();
             console.log(`Dealt ${totalDamage} damage. Boss health: ${this.bossCurrHealth}`);
+    
+            // Clear the current word
             this.currWord = "";
-
-            // Additional logic for when the boss's health drops to 0 or below
-            if (this.bossCurrHealth <= 0) {
-                // Example: Move to the next level, reward player, etc.
-                console.log("Boss defeated!");
-                this.handleBossDefeat(); // Implement this according to your game's logic
-            }
         }
     }
+    
 
     // Ensure to implement this method to update the visual representation of the boss's health
     updateBossHealthDisplay() {
