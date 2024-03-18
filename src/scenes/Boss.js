@@ -44,9 +44,24 @@ class Boss extends Phaser.Scene {
         this.overlay.setOrigin(0);
         this.overlay.setAlpha(.1);
 
+        this.add.particles(config.width * 15 / 100, config.height * 10/100, 'flame', {
+            speed: 200,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD'
+        });
+        this.add.particles(config.width * 85 / 100, config.height * 10/100, 'flame', {
+            speed: 200,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD'
+        });
+
+        this.add.image(config.width / 2, config.height * 1.3 / 10, "title_holder").setScale(.15, .04)
+
         this.bossName = this.getBossNameByLevel(this.data.level);
         const textBox = this.add.bitmapText(config.width / 2, config.height * 1.3 / 10, 'vermin', `${this.bossName}`, 60).setOrigin(.5)
         textBox.setTint(0xB22222)
+
+        
 
         this.bossImage = this.add.image(config.width * 20 / 100, config.height * 40 / 100, 'boss' + this.data.level);
         this.bossImage.displayWidth = 400;
