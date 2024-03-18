@@ -9,7 +9,7 @@ class Main extends Phaser.Scene {
     preload(){
         this.load.image("shopBackground", "/src/assets/shopBackground.jpg");
         this.load.image("startBackground", "/src/assets/startBackground.jpg");
-        this.load.image("boss", "/src/assets/firstBoss.jpg");
+        this.load.image("boss1", "/src/assets/bosses/boss1.jpg");
         this.load.image("trophy", "/src/assets/trophy.png");
 
         for (let letter of 'abcdefghijklmnopqrstuvwxyz') {

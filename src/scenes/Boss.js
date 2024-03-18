@@ -10,10 +10,16 @@ class Boss extends Phaser.Scene {
     }
 
     create() {
-        this.cameras.main.setBackgroundColor(0xffcccc);
+        const backgroundColor = Phaser.Display.Color.GetColor(255 - this.data.level * 15, 204 - this.data.level * 15, 204 - this.data.level * 15);
+        this.cameras.main.setBackgroundColor(backgroundColor);
 
         // Add text box
-        const textBox = this.add.text(config.width / 2, config.height / 10, `Boss ${this.data.level}: Bennet Jackson`, {
+
+        this.bossName = (this.data.level == 1) ? "Bennet Jackson" : (this.data.level == 2) ? "William Rains" : 
+        (this.data.level == 3) ? "Phoenix Garcia" : (this.data.level == 4) ? "Maximilian Mace" : (this.data.level == 5) ? "Ahmad Quereshi" : 
+        (this.data.level == 6) ? "Sam Perry" : (this.data.level == 7) ? "Sam Moreno" : (this.data.level == 8) ? "Hippopotamus" : 
+        (this.data.level == 9) ? "Bacon Hair" : (this.data.level == 10) ? "Gordis" : "";
+        const textBox = this.add.text(config.width / 2, config.height / 10, `Boss ${this.data.level}: ${this.bossName}`, {
             fontFamily: 'Arial',
             fontSize: '24px',
             color: '#ffffff',
@@ -26,7 +32,7 @@ class Boss extends Phaser.Scene {
         textBox.setOrigin(0.5);
 
         // Add boss image as a class member
-        this.bossImage = this.add.image(config.width / 4, config.height / 3, 'boss');
+        this.bossImage = this.add.image(config.width / 4, config.height / 3, 'boss' + this.data.level);
         this.bossImage.setScale(.4, .1);
 
         // Add black rectangle
