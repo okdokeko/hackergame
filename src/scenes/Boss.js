@@ -161,7 +161,7 @@ class Boss extends Phaser.Scene {
         }
 
         // Add a text field to display this.currWord
-        this.wordText = this.add.text(config.width / 2, config.height / 2, this.currWord, {
+        this.wordText = this.add.text(config.width * 66/ 100, config.height * 50 / 100, this.currWord, {
             fontFamily: 'Arial',
             fontSize: '24px',
             color: '#ffffff',
