@@ -128,7 +128,9 @@ class Boss extends Phaser.Scene {
         // this.displayPlayerHand();
 
         this.generateCardsz(letterScores);
-
+        playWordText.setInteractive();
+        playWordText.on('pointerdown', () => this.submitCurrentWord());
+    
     }
 
     update() {
@@ -223,6 +225,39 @@ class Boss extends Phaser.Scene {
             this.currWord += cardChar; // Correctly appends the letter to the current word
         });
     }
+    submitCurrentWord() {
+        if (this.currWord.length > 0) {
 
+            const damagePerLetter = 5; // Each letter causes 5 I am sorry
+    
+            const totalDamage = this.currWord.length * damagePerLetter;
+    
+            this.bossCurrHealth -= totalDamage;
+   
+            if (this.bossCurrHealth < 0) {
+                this.bossCurrHealth = 0;
+            }
+
+            this.updateBossHealthDisplay();
+            console.log(`Dealt ${totalDamage} damage. Boss health: ${this.bossCurrHealth}`);
+            this.currWord = "";
+    
+            // Additional logic for when the boss's health drops to 0 or below
+            if (this.bossCurrHealth <= 0) {
+                // Example: Move to the next level, reward player, etc.
+                console.log("Boss defeated!");
+                this.handleBossDefeat(); // Implement this according to your game's logic
+            }
+        }
+    }
+    
+    // Ensure to implement this method to update the visual representation of the boss's health
+    updateBossHealthDisplay() {
+        // Your code to update the health bar or health text goes here
+        // For example:
+        this.healthBar.scaleX = this.bossCurrHealth / this.bossMaxHealth;
+        this.healthText.setText(`${this.bossCurrHealth} / ${this.bossMaxHealth}`);
+    }
+ 
 
 }
