@@ -18,12 +18,12 @@ class Shop extends Phaser.Scene {
 
     create() {
         this.background = this.add.tileSprite(0, 0, config.width, config.height, "shopBackground").setOrigin(0, 0).setScale(3);
-        this.add.text(config.width / 10, config.height / 15, "Shop", { font: `${config.width / 15}px Brush Script MT, cursive`, fill: "black" });
+        this.add.image(config.width * 1.5 / 10, config.height * 2/ 15, 'shop');
 
-        this.blackBox = this.add.rectangle(config.width / 2, config.height * 5 / 8, config.width * 6 / 7, config.height * 5 / 8, 0x000000, 0.9);
-        this.waresAccent = this.add.rectangle(config.width / 2.015, config.height / 2.55, config.width / 8, config.height / 14, 0xf0e62e, 0.9);
-        this.add.text(config.width / 2.24, config.height / 2.8, "Wares", {
-            font: `${config.width / 30}px Brush Script MT, cursive`, fill: "black",
+        this.blackBox = this.add.rectangle(config.width / 2, config.height * 5 / 8, config.width * 6 / 7, config.height * 5 / 8, 0xA6A6A6, 0.9);
+        this.waresAccent = this.add.rectangle(config.width / 2.015, config.height / 2.55, config.width / 8, config.height / 14, 0x550674, 0.9);
+        this.add.text(config.width / 2.20, config.height / 2.8, "Wares", {
+            font: `${config.width / 30}px Brush Script MT, cursive`, fill: "pink",
         }).setShadow(2, 2, "#333333", 2, false, true);
 
         // Assuming a predefined letterCostMap and config object exists
@@ -35,13 +35,9 @@ class Shop extends Phaser.Scene {
 
         this.generateCards(letterCostMap);
 
-        const bossButton = this.add.text(config.width / 1.2, config.height / 6, 'To Boss →', {
-            fontFamily: 'Arial',
-            fontSize: '60px',
-            color: '#ffffff',
-            backgroundColor: '#000000',
-            padding: { x: 16, y: 8 }
-        }).setOrigin(0.5).setInteractive();
+        this.add.rectangle(config.width * 7 / 10, config.height / 6, config.width * 4.6 / 10, config.height * 1.5 / 10, 0xB22222, .9)
+        const bossButton = this.add.bitmapText(config.width * 7.05 / 10, config.height / 6,'vermin', 'CHALLENGE THE BOSS →', 60)
+        bossButton.setOrigin(0.5).setInteractive();
 
         bossButton.on('pointerup', () => {
             this.data.iterationIndex += 1;
@@ -72,7 +68,7 @@ class Shop extends Phaser.Scene {
             fontFamily: 'Arial',
             fontSize: '18px',
             color: '#ffffff',
-            backgroundColor: '#007bff', // Using a blue background for visibility
+            backgroundColor: '#550674', // Using a blue background for visibility
             padding: {
                 x: 5,
                 y: 5,
@@ -95,7 +91,9 @@ class Shop extends Phaser.Scene {
     update() {
         this.background.tilePositionY -= .5;
         this.moneyText?.destroy();
-        this.moneyText = this.add.text(config.width / 9, config.height / 5, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
+        this.moneyText = this.add.bitmapText(config.width *.8/ 10, config.height / 5,'vermin', `Money: ${this.data.money}`,24);
+        this.moneyText.setTint(0x550674);
+        this.moneyText.setScale(1.5)
     }
     displayBoughtCards() {
     if (!this.data.deck) return;
