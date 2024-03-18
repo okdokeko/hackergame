@@ -203,7 +203,7 @@ class Boss extends Phaser.Scene {
         const names = [
             "", // Index 0 unused
             "Bennet Jackson", "William Rains", "Phoenix Garcia", "Maximilian Mace",
-            "Ahmad Quereshi", "Sam Perry", "Sam Moreno", "Hippopotamus",
+            "Ahmad Quereshi", "Sam Perry", "Sam Stinky EEWWWWWWWWWWWWWWW", "Hippopotamus",
             "Bacon Hair", "Gordis, Devourer of Worlds"
         ];
         return names[level] || ""; // Default to empty string if level is out of bounds
@@ -253,8 +253,6 @@ class Boss extends Phaser.Scene {
     
     // Ensure to implement this method to update the visual representation of the boss's health
     updateBossHealthDisplay() {
-        // Your code to update the health bar or health text goes here
-        // For example:
         this.healthBar.scaleX = this.bossCurrHealth / this.bossMaxHealth;
         this.healthText.setText(`${this.bossCurrHealth} / ${this.bossMaxHealth}`);
     }
