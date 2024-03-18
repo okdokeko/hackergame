@@ -210,6 +210,18 @@ class Deck {
         return letter;
     }
 
+    getRandomLetter() {
+        if (this.length === 0) {
+            return null;
+        }
+        const randomIndex = Math.floor(Math.random() * this.length);
+        let current = this.head;
+        for (let i = 0; i < randomIndex; i++) {
+            current = current.next;
+        }
+        return current.letter;
+    }
+
     initDeck(){
 
         const letters = [
