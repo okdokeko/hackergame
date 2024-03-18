@@ -200,8 +200,8 @@ class Boss extends Phaser.Scene {
         const card = this.add.image(config.width * position / 100, config.height / 1.3, cardChar).setScale(.4).setInteractive();        
         
         card.on('pointerup', () => {
-                this.currScore += letterScores[cardChar];
-                this.currWord += letterScores.getLetter;
+            this.currScore += letterScores[cardChar]; // Correctly adds the score based on the letter
+            this.currWord += cardChar; // Correctly appends the letter to the current word
         });
     }
 
