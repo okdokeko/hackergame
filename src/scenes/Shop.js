@@ -47,6 +47,13 @@ class Shop extends Phaser.Scene {
             this.data.iterationIndex += 1;
             this.scene.start('Boss', this.data);
         });
+
+        //Sound Effects
+        var click = this.sound.add("onClick", {loop: false, volume: .3});
+        //On click effect
+        this.input.on('pointerdown', () => {
+            click.play();
+        });
     }
 
     generateCards(letterCostMap) {
@@ -83,12 +90,29 @@ class Shop extends Phaser.Scene {
                 // Handle insufficient funds
             }
         });
+
     }
     update() {
         this.background.tilePositionY -= .5;
         this.moneyText?.destroy();
         this.moneyText = this.add.text(config.width / 9, config.height / 5, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
     }
+    displayBoughtCards() {
+    if (!this.data.deck) return;
+
+    const letters = this.data.deck.getAllLetters();
+    let displayText = "Bought Cards: ";
+    letters.forEach(letter => {
+        displayText += letter + " ";
+    });
+
+    this.add.text(config.width / 2, 20, displayText, {
+        fontFamily: 'Arial',
+        fontSize: '24px',
+        color: '#000',
+        align: 'center'
+    }).setOrigin(0.5);
+}
 }
 
 function getRandLetter() {

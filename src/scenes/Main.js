@@ -12,6 +12,8 @@ class Main extends Phaser.Scene {
         this.load.image("bossBackground", "/src/assets/bossBackground.jpg");
         this.load.image("trophy", "/src/assets/trophy.png");
         this.load.audio("startScreenMusic", "/src/assets/music.mp3");
+        this.load.audio("onClick", "/src/assets/button.mp3");
+
 
 
         for (let i = 1; i <= 10; i++) {

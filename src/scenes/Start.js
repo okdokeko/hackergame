@@ -23,8 +23,9 @@ class Start extends Phaser.Scene {
         data.deck.initDeck();  
     
 
-        //Background music
+        //Sounds
         var music = this.sound.add("startScreenMusic", {loop: true});
+        var click = this.sound.add("onClick", {loop: false, volume: .3});
         music.play();
 
         // Add a background image
@@ -89,13 +90,31 @@ class Start extends Phaser.Scene {
             this.scene.start('Credits');
         });
 
+        const musicButton = this.add.text(config.width / 2, 500, 'Music Off (Recommended experience)', {
+            fontFamily: 'Arial',
+            fontSize: '12px',
+            color: '#ffffff',
+            backgroundColor: '#000000',
+            padding: {
+                x: 16,
+                y: 8
+            }
+        }).setOrigin(0.5).setInteractive();
+        // Add an event listener to the music button
+        musicButton.on('pointerdown', () => {
+            music.stop();
+        });
+
         //Add version note
         this.add.text(config.width * 1/ 100, config.height * 90 / 100, "Version: 2.1.2", {
             fontFamily: 'Arial',
             fontSize: '32px',
             color: '#ffffff',
         });
-
+        //On click effect
+        this.input.on('pointerdown', () => {
+            click.play();
+        });
     }
     
 
@@ -114,15 +133,15 @@ class Deck {
         this.length = 0;
     }
 
-getAllLetters() {
-    let letters = [];
-    let current = this.head;
-    while (current != null) {
-        letters.push(current.letter);
-        current = current.next;
+    getAllLetters() {
+        let letters = [];
+        let current = this.head;
+        while (current != null) {
+            letters.push(current.letter);
+            current = current.next;
+        }
+        return letters;
     }
-    return letters;
-}
 
     addLetter(letterObj) {
         const node = {
@@ -155,35 +174,35 @@ getAllLetters() {
     initDeck(){
 
         const letters = [
-            'A',
-            'B',
-            'C',
-            'D',
-            'E',
-            'F',
-            'G',
-            'H',
-            'I',
-            'J',
-            'K',
-            'L',
-            'M',
-            'N',
-            'O',
-            'P',
-            'Q',
-            'R',
-            'S',
-            'T',
-            'U',
-            'V',
-            'W',
-            'X',
-            'Y',
-            'Z'
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z'
         ];
     
-        const initiDeckSize = 40;
+        const initiDeckSize = 1;
         for (let i = 0; i < initiDeckSize; i++) {
             const randomIndex = Math.floor(Math.random() * letters.length);
             const randomLetter = letters[randomIndex]; // Generating random letter object
