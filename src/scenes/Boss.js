@@ -148,6 +148,7 @@ class Boss extends Phaser.Scene {
             padding: { x: 10, y: 5 }
         }).setOrigin(0.5);
 
+
     }
 
     displayPlayerHand() {
