@@ -88,6 +88,29 @@ class Start extends Phaser.Scene {
         creditsButton.on('pointerdown', () => {
             this.scene.start('Credits');
         });
+
+        const musicButton = this.add.text(config.width / 2, 500, 'Music Off (Recommended experience)', {
+            fontFamily: 'Arial',
+            fontSize: '12px',
+            color: '#ffffff',
+            backgroundColor: '#000000',
+            padding: {
+                x: 16,
+                y: 8
+            }
+        }).setOrigin(0.5).setInteractive();
+        // Add an event listener to the music button
+        musicButton.on('pointerdown', () => {
+            music.stop();
+        });
+
+        //Add version note
+        this.add.text(config.width * 1/ 100, config.height * 90 / 100, "Version: 2.1.2", {
+            fontFamily: 'Arial',
+            fontSize: '32px',
+            color: '#ffffff',
+        });
+
     }
     
 
