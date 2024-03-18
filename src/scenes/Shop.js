@@ -47,6 +47,13 @@ class Shop extends Phaser.Scene {
             this.data.iterationIndex += 1;
             this.scene.start('Boss', this.data);
         });
+
+        //Sound Effects
+        var click = this.sound.add("onClick", {loop: false, volume: .3});
+        //On click effect
+        this.input.on('pointerdown', () => {
+            click.play();
+        });
     }
 
     generateCards(letterCostMap) {
@@ -83,6 +90,7 @@ class Shop extends Phaser.Scene {
                 // Handle insufficient funds
             }
         });
+
     }
     update() {
         this.background.tilePositionY -= .5;

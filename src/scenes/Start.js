@@ -23,8 +23,9 @@ class Start extends Phaser.Scene {
         data.deck.initDeck();  
     
 
-        //Background music
+        //Sounds
         var music = this.sound.add("startScreenMusic", {loop: true});
+        var click = this.sound.add("onClick", {loop: false, volume: .3});
         music.play();
 
         // Add a background image
@@ -110,7 +111,10 @@ class Start extends Phaser.Scene {
             fontSize: '32px',
             color: '#ffffff',
         });
-
+        //On click effect
+        this.input.on('pointerdown', () => {
+            click.play();
+        });
     }
     
 
