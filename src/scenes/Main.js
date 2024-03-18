@@ -9,6 +9,7 @@ class Main extends Phaser.Scene {
     preload(){
         this.load.image("shopBackground", "/src/assets/shopBackground.jpg");
         this.load.image("startBackground", "/src/assets/startBackground.jpg");
+        this.load.image("bossBackground", "/src/assets/bossBackground.jpg");
         this.load.image("trophy", "/src/assets/trophy.png");
         this.load.audio("startScreenMusic", "/src/assets/music.mp3");
 

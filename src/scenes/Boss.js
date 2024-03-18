@@ -10,14 +10,23 @@ class Boss extends Phaser.Scene {
     }
 
     create() {
-        const backgroundColor = Phaser.Display.Color.GetColor(255 - this.data.level * 15, 204 - this.data.level * 15, 204 - this.data.level * 15);
-        this.cameras.main.setBackgroundColor(backgroundColor);
+        // Add a background image
+        this.background = this.add.tileSprite(0, 0, 5400, 3400, "bossBackground").setScale(.5);
+        this.background.setOrigin(0);
+
+        // Calculate the color of the overlay based on the level
+        const overlayColor = Phaser.Display.Color.GetColor(255 - this.data.level * 15, 204 - this.data.level * 15, 204 - this.data.level * 15);
+
+        // Add a rectangle to act as the overlay
+        this.overlay = this.add.rectangle(0, 0, config.width, config.height, overlayColor);
+        this.overlay.setOrigin(0);
+        this.overlay.setAlpha(.1);
 
         //Add boss Name
-        this.bossName = (this.data.level == 1) ? "Bennet Jackson" : (this.data.level == 2) ? "William Rains" : 
-        (this.data.level == 3) ? "Phoenix Garcia" : (this.data.level == 4) ? "Maximilian Mace" : (this.data.level == 5) ? "Ahmad Quereshi" : 
-        (this.data.level == 6) ? "Sam Perry" : (this.data.level == 7) ? "Sam Moreno" : (this.data.level == 8) ? "Hippopotamus" : 
-        (this.data.level == 9) ? "Bacon Hair" : (this.data.level == 10) ? "Gordis" : "";
+        this.bossName = (this.data.level == 1) ? "Bennet Jackson" : (this.data.level == 2) ? "William Rains" :
+            (this.data.level == 3) ? "Phoenix Garcia" : (this.data.level == 4) ? "Maximilian Mace" : (this.data.level == 5) ? "Ahmad Quereshi" :
+                (this.data.level == 6) ? "Sam Perry" : (this.data.level == 7) ? "Sam Moreno" : (this.data.level == 8) ? "Hippopotamus" :
+                    (this.data.level == 9) ? "Bacon Hair" : (this.data.level == 10) ? "Gordis" : "";
         const textBox = this.add.text(config.width / 2, config.height / 10, `Boss ${this.data.level}: ${this.bossName}`, {
             fontFamily: 'Arial',
             fontSize: '24px',
@@ -84,6 +93,7 @@ class Boss extends Phaser.Scene {
         const goldLine = this.add.rectangle(healthBar.x, healthBar.y + 220, config.width / 3, 2, 0xffd700);
         goldLine.setStrokeStyle(4, 0x000000);
 
+        this.hud = this.add.rectangle(config.width / 5, config.height / 10, config.width / 4, config.height / 12, 0xffffff);
         //Display money
         this.moneyText = this.add.text(config.width / 9, config.height / 10, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
 
@@ -93,7 +103,8 @@ class Boss extends Phaser.Scene {
     }
 
     update() {
-        //money count change test
+        this.background.tilePositionY -= 0.5;
+        this.background.tilePositionX += 0.5;
 
         //this.currHealthBar?.destroy();
         this.currHealthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5,
