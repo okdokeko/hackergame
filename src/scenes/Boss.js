@@ -66,15 +66,31 @@ class Boss extends Phaser.Scene {
         const goldLine = this.add.rectangle(healthBar.x, healthBar.y + 220, config.width / 3, 2, 0xffd700);
         goldLine.setStrokeStyle(4, 0x000000);
 
-        this.moneyText = this.add.text(config.width / 9, config.height / 10, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
+        // Add white rectangle behind money text
+        const moneyBackground = this.add.rectangle(config.width / 9, config.height / 10, 150, 30, 0xffffff);
+        moneyBackground.setOrigin(0.5);
 
+        // Display money
+        this.moneyText = this.add.text(config.width / 9, config.height / 10, `Money: ${this.data.money}`, { font: "25px Arial", fill: "black" });
+        this.moneyText.setOrigin(0.5);
+
+        // Add white rectangle behind level text
+        const levelBackground = this.add.rectangle(config.width / 4, config.height / 10, 150, 30, 0xffffff);
+        levelBackground.setOrigin(0.5);
+
+        // Display level
         this.levelText = this.add.text(config.width / 4, config.height / 10, `Level: ${this.data.level}`, { font: "25px Arial", fill: "black" });
+        this.levelText.setOrigin(0.5);
+
 
         // Display the player's current hand
         this.displayPlayerHand();
     }
 
     update() {
+        this.background.tilePositionY -= 0.5;
+        this.background.tilePositionX += 0.5;
+
         this.currHealthBar?.destroy();
         this.currHealthBar = this.add.rectangle(this.bossImage.x + config.width / 2.5, config.height / 5, (config.width / 3) * (this.bossCurrHealth / this.bossMaxHealth), config.height / 15, 'gold');
 
