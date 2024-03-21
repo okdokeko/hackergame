@@ -117,6 +117,7 @@ class Boss extends Phaser.Scene {
             if(this.data.dictionary.hasWord(this.currWord)){
                 this.generateHand(this.data.letterScores);
             }
+            this.currWord = "";
         });
     }
 
@@ -372,7 +373,7 @@ class Boss extends Phaser.Scene {
             this.wordsLeft -= 1;
 
             // Clear the current word
-            this.currWord = "";
+            //this.currWord = ""; done in observer instead
 
             // Additional logic for when the boss's health drops to 0 or below
             if (this.bossCurrHealth <= 0) {
