@@ -22,10 +22,18 @@ class Start extends Phaser.Scene {
             score: 0,
             deck: new Deck(),
             level: 1,
+            dictionary: new Dict('/src/assets/words.txt'),
+            letterScores: {
+                'a': 1, 'e': 1, 'i': 1, 'o': 1, 'u': 1, 'l': 1, 'n': 1, 's': 1, 't': 1, 'r': 1,
+                'd': 2, 'g': 2,
+                'b': 3, 'c': 3, 'm': 3, 'p': 3,
+                'f': 4, 'h': 4, 'v': 4, 'w': 4, 'y': 4,
+                'k': 5,
+                'j': 8, 'x': 8,
+                'q': 10, 'z': 10
+            }
         };
         data.deck.initDeck();
-        //console.log(data.deck.makeHand());
-        //console.log("amobus");
 
         // Add sound
         var music = this.sound.add("startScreenMusic", { loop: true });
@@ -162,7 +170,6 @@ class Start extends Phaser.Scene {
         // create background motion
         this.background.tilePositionY -= 0.5;
         this.background.tilePositionX += 0.5;
-        console.log("ss");
     }
 }
 
@@ -347,6 +354,41 @@ class Deck {
         this.addLetter('o');
         this.addLetter('o');
         this.addLetter('u');
-        console.log("Rizdle");
+    }
+}
+
+class Dict {
+    constructor(filePath) {
+        this.wordsSet = new Set();
+        this.initialize(filePath);
+    }
+
+    async initialize(filePath) {
+        await this.loadDictionary(filePath);
+        console.log(this.wordsSet);
+    }
+
+    async loadDictionary(filePath) {
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error('Failed to load dictionary file');
+            }
+            const wordsText = await response.text();
+            const wordsArray = wordsText.split('\n');
+            wordsArray.forEach(word => {
+                // Check if the word contains only letters
+                if (/^[a-zA-Z]+$/.test(word)) {
+                    this.wordsSet.add(word.trim().toLowerCase());
+                }
+            });
+        } catch (error) {
+            console.error('Error loading dictionary:', error);
+        }
+    }
+
+    // Method to check if a word exists in the dictionary
+    hasWord(word) {
+        return this.wordsSet.has(word.toLowerCase());
     }
 }
