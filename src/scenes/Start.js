@@ -1,6 +1,3 @@
-
-
-//import Deck from 'src/Data/Deck.js'; //TODO: Fix import
 class Start extends Phaser.Scene {
 
     constructor() {
