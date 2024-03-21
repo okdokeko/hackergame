@@ -24,8 +24,8 @@ class Start extends Phaser.Scene {
             level: 1,
         };
         data.deck.initDeck();
-        console.log(data.deck.makeHand());
-        console.log("amobus");
+        //console.log(data.deck.makeHand());
+        //console.log("amobus");
 
         // Add sound
         var music = this.sound.add("startScreenMusic", { loop: true });
@@ -145,7 +145,7 @@ class Start extends Phaser.Scene {
         });
 
         //Add version note
-        this.add.text(config.width * 1 / 100, config.height * 90 / 100, "Version: 2.3.3", {
+        this.add.text(config.width * 1 / 100, config.height * 90 / 100, "Version: 3.3.3", {
             fontFamily: 'Arial',
             fontSize: '32px',
             color: '#ffffff',
@@ -181,38 +181,43 @@ class Deck {
         if (this.length === 0) {
             return null;
         }
-    
+
         const handSize = 7; // Define the size of the hand
         const hand = [];
         const selectedLetters = new Set(); // Set to keep track of selected letters
-    
-        let current = this.head; // Start from the head of the list
-        while (hand.length < handSize && current !== null) {
-            // Generate a random index to select a letter from the deck
-            const randomIndex = Math.floor(Math.random() * this.length);
-            let count = 0;
-            let temp = this.head; // Use a temporary pointer to traverse the list
-    
-            // Traverse the list to the randomly selected index
-            while (count < randomIndex && temp !== null) {
-                temp = temp.next;
-                count++;
-            }
-    
-            // Check if the selected letter is not already in the hand
-            if (temp !== null && !selectedLetters.has(temp.letter)) {
-                // Add the selected letter to the hand
-                hand.push(temp.letter);
-                selectedLetters.add(temp.letter);
-            }
-    
-            current = this.head; // Reset current to the head for the next iteration
+
+        //let current = this.head; // Start from the head of the list
+        while (hand.length < handSize) {
+            const currLetter = this.removeLetter();
+            hand.push(currLetter);
         }
-    
+        
         return hand;
     }
-    
-    
+
+    /* Old stuff from makeHand */
+    //selectedLetters.add(currLetter);
+    // // Generate a random index to select a letter from the deck
+    // const randomIndex = Math.floor(Math.random() * this.length);
+    // let count = 0;
+    // let temp = this.head; // Use a temporary pointer to traverse the list
+
+    // // Traverse the list to the randomly selected index
+    // while (count < randomIndex && temp !== null) {
+    //     temp = temp.next;
+    //     count++;
+    // }
+
+    // // Check if the selected letter is not already in the hand
+    // if (temp !== null && !selectedLetters.has(temp.letter)) {
+    //     // Add the selected letter to the hand
+    //     hand.push(temp.letter);
+    //     selectedLetters.add(temp.letter);
+    // }
+
+    // current = this.head; // Reset current to the head for the next iteration
+
+
     //returns array of all letters
     getAllLetters() {
         let letters = [];
@@ -252,6 +257,70 @@ class Deck {
         }
         this.length--;
         return letter;
+    }
+
+    /* Shuffling */
+    // Method to convert the linked list to an array
+    toArray() {
+        const array = [];
+        let current = this.head;
+        while (current) {
+            array.push(current.letter);
+            current = current.next;
+        }
+        return array;
+    }
+
+    // Method to insert a node at the end of the linked list
+    insertAtEnd(data) {
+        const newNode = new Node(data);
+        if (!this.head) {
+            this.head = newNode;
+            return;
+        }
+        let current = this.head;
+        while (current.next) {
+            current = current.next;
+        }
+        current.next = newNode;
+    }
+
+    // Method to add an array of letters to the end of the linked list
+    addLettersArray(lettersArray) {
+        for (let i = 0; i < lettersArray.length; i++) {
+            const node = {
+                letter: lettersArray[i],
+                next: null
+            };
+            if (this.head === null) {
+                this.head = node;
+                this.tail = node;
+            } else {
+                this.tail.next = node;
+                this.tail = node;
+            }
+            this.length++;
+        }
+    }
+
+    // Method to shuffle the linked list
+    shuffle(discardedCards) {
+        // Convert linked list to array
+        const linkedListArray = this.toArray();
+
+        // Concatenate the discarded cards array with the original linked list array
+        const array = linkedListArray.concat(discardedCards);
+
+        // Shuffle the array (Fisher-Yates shuffle algorithm)
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        }
+
+        // Reconstruct the linked list using the shuffled array
+        this.head = null;
+        this.length = 0;
+        this.addLettersArray(array);
     }
 
     //initializes the deck, and ensures some vowels

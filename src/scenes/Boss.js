@@ -9,7 +9,7 @@ class Boss extends Phaser.Scene {
         this.bossMaxHealth = 100 * this.data.level;
         this.bossCurrHealth = this.bossMaxHealth;
 
-        console.log(this.data.deck.makeHand());
+        //console.log(this.data.deck.makeHand());
 
         // Ensure the deck is initialized for the session
         if (!this.data.deck) {
@@ -31,7 +31,8 @@ class Boss extends Phaser.Scene {
             'q': 10, 'z': 10
         };
 
-        this.wordsLeft = 5;
+        this.shufflesLeft = 3;
+        this.discardedHand = [];
 
         this.currScore = 0;
         this.currMult = 1;
@@ -66,8 +67,6 @@ class Boss extends Phaser.Scene {
         const textBox = this.add.bitmapText(config.width / 2, config.height * 1.3 / 10, 'vermin', `${this.bossName}`, 60).setOrigin(.5)
         textBox.setTint(0xB22222)
 
-
-
         this.bossImage = this.add.image(config.width * 20 / 100, config.height * 40 / 100, 'boss' + this.data.level);
         this.bossImage.displayWidth = 400;
         this.bossImage.displayHeight = 250;
@@ -88,6 +87,12 @@ class Boss extends Phaser.Scene {
         // Display money
         this.moneyText = this.add.bitmapText(config.width * .1 / 9, config.height * 9.2 / 10, 'vermin', `Money: ${this.data.money}`, 25)
 
+        //Display cards left
+        this.cardsLeftText = this.add.bitmapText(config.width *40 / 100, config.height * 55 / 100,'vermin', `Cards left: ${this.data.deck.length}`,24);
+        
+        //Display cards discarded
+        this.cardsDiscardedText = this.add.bitmapText(config.width * 40 / 100, config.height * 60 / 100,'vermin', `Cards used: ${this.discardedHand.length}`,24);
+
         // Display level
         this.levelText = this.add.bitmapText(config.width * .1 / 9, config.height * 9.6 / 10, 'vermin', `Level: ${this.data.level}`, 25)
 
@@ -101,6 +106,7 @@ class Boss extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Generate cards
+        this.data.deck.shuffle(this.discardedHand);
         this.generateHand(this.letterScores);
         
         clearWordButton.setInteractive();
@@ -114,7 +120,6 @@ class Boss extends Phaser.Scene {
         playWordText.on('pointerdown', () => {
             this.submitCurrentWord();
             this.generateHand(this.letterScores);
-            this.wordsLeft -= 1;
         });
                 
     }
@@ -142,6 +147,7 @@ class Boss extends Phaser.Scene {
                 this.scene.start('Win');
             } else {
                 this.data.money += 10 * this.data.level; // Reward for defeating the boss
+                this.data.deck.addLettersArray(this.discardedHand); //add back to deck the discarded hand
                 this.scene.start('Shop', this.data);
             }
         }
@@ -157,9 +163,15 @@ class Boss extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.moneyText?.destroy();
-        this.moneyText = this.add.bitmapText(config.width / 2, config.height / 2,'vermin', `Moves left: ${this.wordsLeft}`,24);
+        this.moneyText = this.add.bitmapText(config.width * 40 /100, config.height / 2,'vermin', `Shuffles left: ${this.shufflesLeft}`,24);
+        
+        this.cardsLeftText?.destroy();
+        this.cardsLeftText = this.add.bitmapText(config.width * 40 / 100, config.height * 55 / 100,'vermin', `Cards left: ${this.data.deck.length}`,24);
 
-        if (this.wordsLeft < 1){
+        this.cardsDiscardedText?.destroy();
+        this.cardsDiscardedText = this.add.bitmapText(config.width * 40 / 100, config.height * 60 / 100,'vermin', `Cards used: ${this.discardedHand.length}`,24);
+
+        if (this.shufflesLeft < 1){
             this.scene.start('Lose');
         }
     }
@@ -214,14 +226,22 @@ class Boss extends Phaser.Scene {
     generateHand(letterScores) {
         const positions = [14, 26, 38, 50, 62, 74, 86];
         
+        if(this.data.deck.length < 7){
+            this.data.deck.shuffle(this.discardedHand);
+            this.discardedHand = [];
+            this.shufflesLeft -= 1;
+        }
+
+        //const cardChars = ['a','b','c','d','e','f','g'] // default values
         const cardChars = this.data.deck.makeHand();
+        this.discardedHand = this.discardedHand.concat(cardChars);
         console.log(cardChars);
     
         positions.forEach((position, index) => {
             const cardChar = cardChars[index];
             const card = this.add.image(config.width * position / 100, config.height / 1.3, cardChar).setScale(.4).setInteractive();
     
-            const priceTag = this.add.text(card.x, card.y + 60, `Score: ${letterScores[cardChar.toLowerCase()]}`, {
+            const scoreTag = this.add.text(card.x, card.y + 60, `Score: ${letterScores[cardChar.toLowerCase()]}`, {
                 fontFamily: 'Arial',
                 fontSize: '18px',
                 color: '#ffffff',
