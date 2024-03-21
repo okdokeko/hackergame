@@ -114,7 +114,6 @@ class Boss extends Phaser.Scene {
         playWordText.on('pointerdown', () => {
             this.submitCurrentWord();
             this.generateHand(this.letterScores);
-            this.wordsLeft -= 1;
         });
                 
     }
@@ -244,6 +243,7 @@ class Boss extends Phaser.Scene {
             // Initialize wordScore variable
             if (!this.data.dictionary.hasWord(this.currWord)){
                 console.log("Invalid word");
+                this.currWord = "";
                 return;
             }
             let wordScore = 0;
@@ -268,6 +268,7 @@ class Boss extends Phaser.Scene {
             console.log(`Dealt ${totalDamage} damage. Boss health: ${this.bossCurrHealth}`);
 
             // Clear the current word
+            this.wordsLeft -= 1;
             this.currWord = "";
 
             // Additional logic for when the boss's health drops to 0 or below
