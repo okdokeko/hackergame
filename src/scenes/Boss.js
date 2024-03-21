@@ -21,7 +21,7 @@ class Boss extends Phaser.Scene {
     create() {
 
         // A predefined map between letters and scores. Based on scrabble 
-        
+
 
         this.wordsLeft = 5 + this.data.level;
 
@@ -94,20 +94,37 @@ class Boss extends Phaser.Scene {
 
         // Generate cards
         this.generateHand(this.data.letterScores);
-        
+
         clearWordButton.setInteractive();
         clearWordButton.on('pointerdown', () => {
             if (this.wordText) {
                 this.currWord = "";
             }
         });
-        
+
         playWordText.setInteractive();
         playWordText.on('pointerdown', () => {
             this.submitCurrentWord();
             this.generateHand(this.data.letterScores);
         });
-                
+
+
+        // Create the Text object for displaying total damage
+        this.totalDamageText = this.add.text(
+            config.width / 2, // X position
+            config.height - 50, // Y position (near the bottom of the screen)
+            "", // Initial text (empty)
+            {
+                fontFamily: 'Arial',
+                fontSize: '24px',
+                color: '#ffffff',
+                backgroundColor: '#000000',
+                padding: { x: 10, y: 5 }
+            }
+        );
+        this.totalDamageText.setOrigin(0.5); // Center the text
+
+
     }
 
     update() {
@@ -148,11 +165,25 @@ class Boss extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.moneyText?.destroy();
-        this.moneyText = this.add.bitmapText(config.width / 2, config.height / 2,'vermin', `Moves left: ${this.wordsLeft}`,24);
+        this.moneyText = this.add.bitmapText(config.width / 2, config.height / 2, 'vermin', `Moves left: ${this.wordsLeft}`, 24);
 
-        if (this.wordsLeft < 1){
+        if (this.wordsLeft < 1) {
             this.scene.start('Lose');
         }
+
+        // Calculate total damage based on the current word
+        let wordScore = 0;
+        for (let i = 0; i < this.currWord.length; i++) {
+            const letter = this.currWord[i];
+            wordScore += this.data.letterScores[letter] || 0; // Ensure letterScores exist for the letter
+        }
+        const totalDamage = Math.round(wordScore ** ((this.currWord.length - 2) / 1.5));
+
+        // Update the text to display the current total damage
+        if (this.currWord.length > 1){
+            this.totalDamageText.setText(`Total Damage: ${wordScore} ^ ${Math.round((this.currWord.length - 2) / 1.5)} = ${totalDamage}`);
+        }
+
     }
 
     displayPlayerHand() {
@@ -192,7 +223,7 @@ class Boss extends Phaser.Scene {
         ];
         return names[level] || ""; // Default to empty string if level is out of bounds
     }
-    
+
     clearHand() {
         // Remove all existing cards and price tags
         this.children.each(child => {
@@ -204,14 +235,14 @@ class Boss extends Phaser.Scene {
 
     generateHand(letterScores) {
         const positions = [14, 26, 38, 50, 62, 74, 86];
-        
+
         const cardChars = this.data.deck.makeHand();
         console.log(cardChars);
-    
+
         positions.forEach((position, index) => {
             const cardChar = cardChars[index];
             const card = this.add.image(config.width * position / 100, config.height / 1.3, cardChar).setScale(.4).setInteractive();
-    
+
             const priceTag = this.add.text(card.x, card.y + 60, `Score: ${letterScores[cardChar.toLowerCase()]}`, {
                 fontFamily: 'Arial',
                 fontSize: '18px',
@@ -228,12 +259,12 @@ class Boss extends Phaser.Scene {
             });
         });
     }
-            
-    
+
+
     submitCurrentWord() {
         if (this.currWord.length > 0) {
             // Initialize wordScore variable
-            if (!this.data.dictionary.hasWord(this.currWord)){
+            if (!this.data.dictionary.hasWord(this.currWord)) {
                 const invalidText = this.add.text(
                     config.width / 1.5, // X position
                     config.height / 2.5, // Y position
@@ -247,12 +278,12 @@ class Boss extends Phaser.Scene {
                     }
                 );
                 invalidText.setOrigin(0.5); // Center the text
-                
+
                 // Remove the text after 5 seconds
                 setTimeout(() => {
                     invalidText.destroy();
                 }, 3000);
-                
+
                 // Clear the curent word
                 this.currWord = "";
                 return;
@@ -266,7 +297,7 @@ class Boss extends Phaser.Scene {
             }
 
             // Calculate total damage
-            const totalDamage =  Math.round(wordScore ** ((this.currWord.length - 2) / 1.5));
+            const totalDamage = Math.round(wordScore ** ((this.currWord.length - 2) / 1.5));
             // Update boss's current health
             this.bossCurrHealth -= totalDamage;
 
