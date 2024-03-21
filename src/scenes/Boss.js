@@ -121,6 +121,7 @@ class Boss extends Phaser.Scene {
     }
 
     update() {
+        
         // Move the background tiles diagonally
         this.background.tilePositionY -= 0.5;
         this.background.tilePositionX += 0.5;
@@ -192,7 +193,7 @@ class Boss extends Phaser.Scene {
             const letter = this.currWord[i];
             wordScore += this.data.letterScores[letter] || 0; // Ensure letterScores exist for the letter
         }
-        const totalDamage = Math.round(wordScore ** ((this.currWord.length - 2) / 1.5));
+        const totalDamage = Math.round(wordScore ** (this.currWord.length - 2));
 
         // Check if totalDamageText exists and currWord length is less than 2 before destroying it
         if (this.totalDamageText && this.currWord.length < 2) {
@@ -207,7 +208,7 @@ class Boss extends Phaser.Scene {
             this.totalDamageText = this.add.text(
                 config.width / 2, // X position
                 config.height - 50, // Y position
-                `Total Damage: ${wordScore} ^ ${this.currWord.length - 1} = ${totalDamage}`, // Initial text (empty)
+                `Total Damage: ${wordScore} ^ ${(this.currWord.length - 2)} = ${totalDamage}`, // Initial text (empty)
                 {
                     fontFamily: 'Arial',
                     fontSize: '24px',
@@ -357,7 +358,7 @@ class Boss extends Phaser.Scene {
             }
 
             // Calculate total damage
-            const totalDamage = Math.round(wordScore ** (this.currWord.length - 1));
+            const totalDamage = Math.round(wordScore ** (this.currWord.length - 2));
             // Update boss's current health
             this.bossCurrHealth -= totalDamage;
 
