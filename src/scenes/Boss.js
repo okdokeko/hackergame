@@ -86,7 +86,7 @@ class Boss extends Phaser.Scene {
         this.cardsLeftText = this.add.bitmapText(config.width *40 / 100, config.height * 55 / 100,'vermin', `Cards in draw pile: ${this.data.deck.length}`,24);
         
         //Display cards discarded
-        this.cardsDiscardedText = this.add.bitmapText(config.width * 40 / 100, config.height * 60 / 100,'vermin', `Cards in discard pile: ${this.discardedHand.length}`,24);
+        //this.cardsDiscardedText = this.add.bitmapText(config.width * 40 / 100, config.height * 60 / 100,'vermin', `Cards in discard pile: ${this.discardedHand.length}`,24);
 
         // Display level
         this.levelText = this.add.bitmapText(config.width * .1 / 9, config.height * 9.6 / 10, 'vermin', `Level: ${this.data.level}`, 25)
@@ -114,7 +114,9 @@ class Boss extends Phaser.Scene {
         playWordText.setInteractive();
         playWordText.on('pointerdown', () => {
             this.submitCurrentWord();
-            this.generateHand(this.data.letterScores);
+            if(this.data.dictionary.hasWord(this.currWord)){
+                this.generateHand(this.data.letterScores);
+            }
         });
     }
 
@@ -167,13 +169,13 @@ class Boss extends Phaser.Scene {
 
         // Destroy previous money text if it exists
         this.moneyText?.destroy();
-        this.moneyText = this.add.bitmapText(config.width * 40 /100, config.height / 2,'vermin', `Deck shuffles left: ${this.shufflesLeft}`,24);
+        this.moneyText = this.add.bitmapText(config.width * 40 /100, config.height / 2,'vermin', `Deck refreshes left: ${this.shufflesLeft}`,24);
         
         this.cardsLeftText?.destroy();
         this.cardsLeftText = this.add.bitmapText(config.width * 40 / 100, config.height * 55 / 100,'vermin', `Cards in draw pile: ${this.data.deck.length}`,24);
 
-        this.cardsDiscardedText?.destroy();
-        this.cardsDiscardedText = this.add.bitmapText(config.width * 40 / 100, config.height * 60 / 100,'vermin', `Cards in discard pile: ${this.discardedHand.length}`,24);
+        //this.cardsDiscardedText?.destroy();
+        //this.cardsDiscardedText = this.add.bitmapText(config.width * 40 / 100, config.height * 60 / 100,'vermin', `Cards in discard pile: ${this.discardedHand.length}`,24);
 
         // Display the remaining moves
         //this.moneyText = this.add.bitmapText(config.width / 2, config.height / 2, 'vermin', `Moves left: ${this.wordsLeft}`, 24);
