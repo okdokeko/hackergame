@@ -242,6 +242,10 @@ class Boss extends Phaser.Scene {
     submitCurrentWord() {
         if (this.currWord.length > 0) {
             // Initialize wordScore variable
+            if (!this.data.dictionary.hasWord(this.currWord)){
+                console.log("Invalid word");
+                return;
+            }
             let wordScore = 0;
 
             // Calculate wordScore based on letterScores

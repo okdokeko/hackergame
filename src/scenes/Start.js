@@ -22,10 +22,9 @@ class Start extends Phaser.Scene {
             score: 0,
             deck: new Deck(),
             level: 1,
+            dictionary: new Dict('/src/assets/words.txt')
         };
         data.deck.initDeck();
-        console.log(data.deck.makeHand());
-        console.log("amobus");
 
         // Add sound
         var music = this.sound.add("startScreenMusic", { loop: true });
@@ -162,7 +161,6 @@ class Start extends Phaser.Scene {
         // create background motion
         this.background.tilePositionY -= 0.5;
         this.background.tilePositionX += 0.5;
-        console.log("ss");
     }
 }
 
@@ -278,6 +276,38 @@ class Deck {
         this.addLetter('o');
         this.addLetter('o');
         this.addLetter('u');
-        console.log("Rizdle");
+    }
+}
+
+class Dict {
+    constructor(filePath) {
+        this.wordsSet = new Set();
+        this.initialize(filePath);
+    }
+
+    async initialize(filePath) {
+        await this.loadDictionary(filePath);
+        console.log(this.wordsSet);
+    }
+
+    async loadDictionary(filePath) {
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error('Failed to load dictionary file');
+            }
+            const wordsText = await response.text();
+            const wordsArray = wordsText.split('\n');
+            wordsArray.forEach(word => {
+                this.wordsSet.add(word.trim().toLowerCase());
+            });
+        } catch (error) {
+            console.error('Error loading dictionary:', error);
+        }
+    }
+
+    // Method to check if a word exists in the dictionary
+    hasWord(word) {
+        return this.wordsSet.has(word.toLowerCase());
     }
 }
