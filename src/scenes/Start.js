@@ -1,3 +1,5 @@
+
+
 //import Deck from 'src/Data/Deck.js'; //TODO: Fix import
 class Start extends Phaser.Scene {
 
@@ -18,15 +20,16 @@ class Start extends Phaser.Scene {
         var data = {
             money: 10,
             score: 0,
-            deck: new Deck(), 
+            deck: new Deck(),
             level: 1,
         };
-        data.deck.initDeck();  
-    
+        data.deck.initDeck();
+        console.log(data.deck.makeHand());
+        console.log("amobus");
 
         // Add sound
-        var music = this.sound.add("startScreenMusic", {loop: true});
-        var click = this.sound.add("onClick", {loop: false, volume: .3});
+        var music = this.sound.add("startScreenMusic", { loop: true });
+        var click = this.sound.add("onClick", { loop: false, volume: .3 });
         music.play();
 
         // Add a background image
@@ -35,37 +38,37 @@ class Start extends Phaser.Scene {
         this.background.setScale(2);
 
         // Add particle effects
-        this.add.particles(config.width * 5 / 10, config.height * 15/100, 'red', {
+        this.add.particles(config.width * 5 / 10, config.height * 15 / 100, 'red', {
             speed: 200,
             scale: { start: 1, end: 0 },
             blendMode: 'ADD'
         });
-        this.add.particles(config.width * 2 / 10, config.height * 15/100, 'red', {
+        this.add.particles(config.width * 2 / 10, config.height * 15 / 100, 'red', {
             speed: 200,
             scale: { start: 1, end: 0 },
             blendMode: 'ADD'
         });
-        this.add.particles(config.width * 3 / 10, config.height * 15/100, 'red', {
+        this.add.particles(config.width * 3 / 10, config.height * 15 / 100, 'red', {
             speed: 200,
             scale: { start: 1, end: 0 },
             blendMode: 'ADD'
         });
-        this.add.particles(config.width * 6 / 10, config.height * 15/100, 'red', {
+        this.add.particles(config.width * 6 / 10, config.height * 15 / 100, 'red', {
             speed: 200,
             scale: { start: 1, end: 0 },
             blendMode: 'ADD'
         });
-        this.add.particles(config.width * 7 / 10, config.height * 15/100, 'red', {
+        this.add.particles(config.width * 7 / 10, config.height * 15 / 100, 'red', {
             speed: 200,
             scale: { start: 1, end: 0 },
             blendMode: 'ADD'
         });
 
         // Add logo
-        this.add.image(config.width / 2, config.height * 20/100, "title_holder").setScale(.15,.06);
+        this.add.image(config.width / 2, config.height * 20 / 100, "title_holder").setScale(.15, .06);
         this.logo = this.add.image(config.width / 2, 150, 'logo');
         this.logo.setScale(1.5);
-    
+
         // Add a start button
         const startButton = this.add.text(config.width / 2, 300, 'Start', {
             fontFamily: 'Arial',
@@ -79,12 +82,12 @@ class Start extends Phaser.Scene {
             stroke: '#000000',
             strokeThickness: 2
         }).setOrigin(0.5).setInteractive();
-    
+
         // Add an event listener to the start button
         startButton.on('pointerdown', () => {
             this.scene.start('Shop', data);
         });
-    
+
         // Add a tutorial button
         const tutorialButton = this.add.text(config.width / 2, 400, 'Tutorial', {
             fontFamily: 'Arial',
@@ -103,7 +106,7 @@ class Start extends Phaser.Scene {
         tutorialButton.on('pointerdown', () => {
             this.scene.start('Tutorial');
         });
-    
+
         // Add a credits button
         const creditsButton = this.add.text(config.width / 2, 500, 'Credits', {
             fontFamily: 'Arial',
@@ -142,7 +145,7 @@ class Start extends Phaser.Scene {
         });
 
         //Add version note
-        this.add.text(config.width * 1/ 100, config.height * 90 / 100, "Version: 2.3.3", {
+        this.add.text(config.width * 1 / 100, config.height * 90 / 100, "Version: 2.3.3", {
             fontFamily: 'Arial',
             fontSize: '32px',
             color: '#ffffff',
@@ -153,12 +156,13 @@ class Start extends Phaser.Scene {
             click.play();
         });
     }
-    
+
 
     update() {
         // create background motion
         this.background.tilePositionY -= 0.5;
         this.background.tilePositionX += 0.5;
+        console.log("ss");
     }
 }
 
@@ -172,6 +176,43 @@ class Deck {
         this.length = 0;
     }
 
+    //returns a random letter from the list 
+    makeHand() {
+        if (this.length === 0) {
+            return null;
+        }
+    
+        const handSize = 7; // Define the size of the hand
+        const hand = [];
+        const selectedLetters = new Set(); // Set to keep track of selected letters
+    
+        let current = this.head; // Start from the head of the list
+        while (hand.length < handSize && current !== null) {
+            // Generate a random index to select a letter from the deck
+            const randomIndex = Math.floor(Math.random() * this.length);
+            let count = 0;
+            let temp = this.head; // Use a temporary pointer to traverse the list
+    
+            // Traverse the list to the randomly selected index
+            while (count < randomIndex && temp !== null) {
+                temp = temp.next;
+                count++;
+            }
+    
+            // Check if the selected letter is not already in the hand
+            if (temp !== null && !selectedLetters.has(temp.letter)) {
+                // Add the selected letter to the hand
+                hand.push(temp.letter);
+                selectedLetters.add(temp.letter);
+            }
+    
+            current = this.head; // Reset current to the head for the next iteration
+        }
+    
+        return hand;
+    }
+    
+    
     //returns array of all letters
     getAllLetters() {
         let letters = [];
@@ -213,29 +254,16 @@ class Deck {
         return letter;
     }
 
-    //returns a random letter from the list 
-    getRandomLetter() {
-        if (this.length === 0) {
-            return null;
-        }
-        const randomIndex = Math.floor(Math.random() * this.length);
-        let current = this.head;
-        for (let i = 0; i < randomIndex; i++) {
-            current = current.next;
-        }
-        return current.letter;
-    }
-
     //initializes the deck, and ensures some vowels
-    initDeck(){
+    initDeck() {
 
         const letters = [
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
             'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
             'w', 'x', 'y', 'z'
         ];
-    
-        const initiDeckSize = 8;
+
+        const initiDeckSize = 14;
         for (let i = 0; i < initiDeckSize; i++) {
             const randomIndex = Math.floor(Math.random() * letters.length);
             const randomLetter = letters[randomIndex]; // Generating random letter object
@@ -250,5 +278,6 @@ class Deck {
         this.addLetter('o');
         this.addLetter('o');
         this.addLetter('u');
+        console.log("Rizdle");
     }
 }

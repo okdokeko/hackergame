@@ -9,6 +9,8 @@ class Boss extends Phaser.Scene {
         this.bossMaxHealth = 100 * this.data.level;
         this.bossCurrHealth = this.bossMaxHealth;
 
+        console.log(this.data.deck.makeHand());
+
         // Ensure the deck is initialized for the session
         if (!this.data.deck) {
             this.data.deck = new Deck();
@@ -96,23 +98,22 @@ class Boss extends Phaser.Scene {
             padding: { x: 10, y: 5 }
         }).setOrigin(0.5);
 
-        // Event handler for Clear Word button
+        // Generate cards
+        this.generateHand(this.letterScores);
+        
         clearWordButton.setInteractive();
         clearWordButton.on('pointerdown', () => {
             if (this.wordText) {
                 this.currWord = "";
             }
         });
-
-        // Generate cards
-        this.generateCardsz(this.letterScores);
-
-        // Event handler for Play Word button
+        
         playWordText.setInteractive();
         playWordText.on('pointerdown', () => {
             this.submitCurrentWord();
-        }
-        );
+            this.generateHand(this.letterScores);
+        });
+        
     }
 
     update() {
@@ -151,10 +152,6 @@ class Boss extends Phaser.Scene {
             backgroundColor: '#000000',
             padding: { x: 10, y: 5 }
         }).setOrigin(0.5);
-
-
-
-
     }
 
     displayPlayerHand() {
@@ -194,51 +191,61 @@ class Boss extends Phaser.Scene {
         ];
         return names[level] || ""; // Default to empty string if level is out of bounds
     }
+    
+    clearHand() {
+        // Remove all existing cards and price tags
+        this.children.each(child => {
+            if (child instanceof Phaser.GameObjects.Image || child instanceof Phaser.GameObjects.Text) {
+                child.destroy();
+            }
+        });
+    }
 
-    generateCardsz(letterScores) {
+    generateHand(letterScores) {
         const positions = [14, 26, 38, 50, 62, 74, 86];
-        positions.forEach(position => {
-            this.generateCardz(position, letterScores);
+        
+        const cardChars = this.data.deck.makeHand();
+        console.log(cardChars);
+    
+        positions.forEach((position, index) => {
+            const cardChar = cardChars[index];
+            const card = this.add.image(config.width * position / 100, config.height / 1.3, cardChar).setScale(.4).setInteractive();
+    
+            const priceTag = this.add.text(card.x, card.y + 60, `Score: ${letterScores[cardChar.toLowerCase()]}`, {
+                fontFamily: 'Arial',
+                fontSize: '18px',
+                color: '#ffffff',
+                backgroundColor: '#550674', // Using a blue background for visibility
+                padding: {
+                    x: 5,
+                    y: 5,
+                },
+            }).setOrigin(0.5);
+            card.on('pointerup', () => {
+                this.currScore += letterScores[cardChar]; // Correctly adds the score based on the letter
+                this.currWord += cardChar; // Correctly appends the letter to the current word
+            });
         });
     }
-
-    generateCardz(position, letterScores) {
-        const cardChar = this.data.deck.getRandomLetter();
-        const card = this.add.image(config.width * position / 100, config.height / 1.3, cardChar).setScale(.4).setInteractive();
-
-        const priceTag = this.add.text(card.x, card.y + 60, `Score: ${letterScores[cardChar.toLowerCase()]}`, {
-            fontFamily: 'Arial',
-            fontSize: '18px',
-            color: '#ffffff',
-            backgroundColor: '#550674', // Using a blue background for visibility
-            padding: {
-                x: 5,
-                y: 5,
-            },
-        }).setOrigin(0.5);
-
-        card.on('pointerup', () => {
-            this.currScore += letterScores[cardChar]; // Correctly adds the score based on the letter
-            this.currWord += cardChar; // Correctly appends the letter to the current word
-        });
-    }
+            
+    
     submitCurrentWord() {
         if (this.currWord.length > 0) {
             // Initialize wordScore variable
             let wordScore = 0;
-            
+
             // Calculate wordScore based on letterScores
             for (let i = 0; i < this.currWord.length; i++) {
                 const letter = this.currWord[i];
                 wordScore += this.letterScores[letter] || 0; // Ensure letterScores exist for the letter
             }
-    
+
             // Calculate total damage
             const totalDamage = (this.currWord.length - 2) * wordScore;
-    
+
             // Update boss's current health
             this.bossCurrHealth -= totalDamage;
-    
+
             // Ensure boss's health doesn't go below 0
             if (this.bossCurrHealth < 0) {
                 this.bossCurrHealth = 0;
@@ -246,7 +253,7 @@ class Boss extends Phaser.Scene {
 
             //this.updateBossHealthDisplay();
             console.log(`Dealt ${totalDamage} damage. Boss health: ${this.bossCurrHealth}`);
-    
+
             // Clear the current word
             this.currWord = "";
 
@@ -258,13 +265,4 @@ class Boss extends Phaser.Scene {
             }
         }
     }
-
-    //   //unused and excluded 
-    //// Ensure to implement this method to update the visual representation of the boss's health
-    //updateBossHealthDisplay() {
-    //    this.healthBar.scaleX = this.bossCurrHealth / this.bossMaxHealth;
-    //    this.healthText.setText(`${this.bossCurrHealth} / ${this.bossMaxHealth}`);
-    //}
-
-
 }
