@@ -20,6 +20,7 @@ class Main extends Phaser.Scene {
         this.load.image("shop", "/src/assets/shop.png");
         this.load.bitmapFont('vermin', '/src/assets/vermin.png', '/src/assets/vermin.xml');
         this.load.image("flame", "/src/assets/flame1.png");
+        this.load.text("words", "/src/assets/words.txt");
 
         for (let i = 1; i <= 10; i++) {
             this.load.image(`boss${i}`, `/src/assets/bosses/boss${i}.jpg`);
