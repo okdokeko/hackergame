@@ -207,7 +207,7 @@ class Boss extends Phaser.Scene {
             this.totalDamageText = this.add.text(
                 config.width / 2, // X position
                 config.height - 50, // Y position
-                `Total Damage: ${wordScore} ^ ${Math.round((this.currWord.length - 2) / 1.5)} = ${totalDamage}`, // Initial text (empty)
+                `Total Damage: ${wordScore} ^ ${this.currWord.length - 1} = ${totalDamage}`, // Initial text (empty)
                 {
                     fontFamily: 'Arial',
                     fontSize: '24px',
