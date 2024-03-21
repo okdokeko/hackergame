@@ -31,7 +31,7 @@ class Boss extends Phaser.Scene {
             'q': 10, 'z': 10
         };
 
-        this.wordsLeft = 5;
+        this.wordsLeft = 5 + this.data.level;
 
         this.currScore = 0;
         this.currMult = 1;
@@ -251,7 +251,7 @@ class Boss extends Phaser.Scene {
             }
 
             // Calculate total damage
-            const totalDamage = (this.currWord.length - 1) * wordScore;
+            const totalDamage =  wordScore ** (this.currWord.length - 1);
 
             // Update boss's current health
             this.bossCurrHealth -= totalDamage;
