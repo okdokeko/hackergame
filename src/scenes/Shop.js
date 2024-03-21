@@ -97,17 +97,34 @@ class Shop extends Phaser.Scene {
             },
         }).setOrigin(0.5);
         
-        card.on('pointerup', () => {
-            if (this.data.money >= letterCostMap[cardChar]) {
-                this.data.money -= letterCostMap[cardChar];
-                this.data.deck.addLetter(cardChar);
-                card.destroy(); // Remove the bought card
-                priceTag.destroy(); // Also remove the price tag
-                this.generateCard(position, letterCostMap); // Generate a new card
-            } else {
-                // Handle insufficient funds
-            }
+     // Bobbing effect when hovered
+    card.on('pointerover', () => {
+        this.tweens.add({
+            targets: card,
+            y: card.y - 5, // Move up slightly
+            duration: 200,
+            ease: 'Power1',
+            yoyo: true,
+            repeat: -1 // Repeat indefinitely
         });
+    });
+
+    card.on('pointerout', () => {
+        this.tweens.killTweensOf(card); // Stop the bobbing effect
+        card.y = config.height / 1.65; // Reset position
+    });
+    
+    card.on('pointerup', () => {
+        if (this.data.money >= letterCostMap[cardChar]) {
+            this.data.money -= letterCostMap[cardChar];
+            this.data.deck.addLetter(cardChar);
+            card.destroy(); // Remove the bought card
+            priceTag.destroy(); // Also remove the price tag
+            this.generateCard(position, letterCostMap); // Generate a new card
+        } else {
+            // Handle insufficient funds
+        }
+    });
 
     }
 
