@@ -299,7 +299,10 @@ class Dict {
             const wordsText = await response.text();
             const wordsArray = wordsText.split('\n');
             wordsArray.forEach(word => {
-                this.wordsSet.add(word.trim().toLowerCase());
+                // Check if the word contains only letters
+                if (/^[a-zA-Z]+$/.test(word)) {
+                    this.wordsSet.add(word.trim().toLowerCase());
+                }
             });
         } catch (error) {
             console.error('Error loading dictionary:', error);
