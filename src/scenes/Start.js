@@ -153,7 +153,7 @@ class Start extends Phaser.Scene {
         });
 
         //Add version note
-        this.add.text(config.width * 1 / 100, config.height * 90 / 100, "Version: 3.3.4", {
+        this.add.text(config.width * 1 / 100, config.height * 90 / 100, "Version: 3.3.5", {
             fontFamily: 'Arial',
             fontSize: '32px',
             color: '#ffffff',
