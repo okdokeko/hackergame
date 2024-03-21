@@ -21,17 +21,6 @@ class Boss extends Phaser.Scene {
     // Create scene elements
     create() {
 
-        // A predefined map between letters and scores. Based on scrabble 
-        this.letterScores = {
-            'a': 1, 'e': 1, 'i': 1, 'o': 1, 'u': 1, 'l': 1, 'n': 1, 's': 1, 't': 1, 'r': 1,
-            'd': 2, 'g': 2,
-            'b': 3, 'c': 3, 'm': 3, 'p': 3,
-            'f': 4, 'h': 4, 'v': 4, 'w': 4, 'y': 4,
-            'k': 5,
-            'j': 8, 'x': 8,
-            'q': 10, 'z': 10
-        };
-
         this.shufflesLeft = 3;
         this.discardedHand = [];
 
@@ -113,7 +102,7 @@ class Boss extends Phaser.Scene {
 
         // Generate cards
         this.data.deck.shuffle(this.discardedHand);
-        this.generateHand(this.letterScores);
+        this.generateHand(this.data.letterScores);
         
         clearWordButton.setInteractive();
         clearWordButton.on('pointerdown', () => {
@@ -302,6 +291,7 @@ class Boss extends Phaser.Scene {
         //const cardChars = ['a','b','c','d','e','f','g'] // default values
         // Generate a hand of cards from the deck
         const cardChars = this.data.deck.makeHand();
+        this.discardedHand = this.discardedHand.concat(cardChars);
 
         // Iterate through positions and display cards along with their scores
         positions.forEach((position, index) => {
