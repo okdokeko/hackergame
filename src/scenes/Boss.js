@@ -342,7 +342,7 @@ class Boss extends Phaser.Scene {
                 // Remove the text after 3 seconds
                 this.time.delayedCall(3000, () => {
                     invalidText.destroy();
-                }, 3000);
+                });
 
                 // Clear the current word
                 this.currWord = "";
