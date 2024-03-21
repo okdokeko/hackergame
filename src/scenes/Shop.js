@@ -8,6 +8,7 @@ class Shop extends Phaser.Scene {
         this.data = data;
 
         console.log("In shop");
+        //console.log(this.data.dictionary.wordsSet);
 
         // Ensure the deck is initialized for the session
         if (!this.data.deck) {
