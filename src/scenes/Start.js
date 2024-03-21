@@ -202,29 +202,6 @@ class Deck {
         return hand;
     }
 
-    /* Old stuff from makeHand */
-    //selectedLetters.add(currLetter);
-    // // Generate a random index to select a letter from the deck
-    // const randomIndex = Math.floor(Math.random() * this.length);
-    // let count = 0;
-    // let temp = this.head; // Use a temporary pointer to traverse the list
-
-    // // Traverse the list to the randomly selected index
-    // while (count < randomIndex && temp !== null) {
-    //     temp = temp.next;
-    //     count++;
-    // }
-
-    // // Check if the selected letter is not already in the hand
-    // if (temp !== null && !selectedLetters.has(temp.letter)) {
-    //     // Add the selected letter to the hand
-    //     hand.push(temp.letter);
-    //     selectedLetters.add(temp.letter);
-    // }
-
-    // current = this.head; // Reset current to the head for the next iteration
-
-
     //returns array of all letters
     getAllLetters() {
         let letters = [];
