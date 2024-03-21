@@ -28,20 +28,23 @@ class Tutorial extends Phaser.Scene {
         const instructionsText = `
             Welcome to Sigma Blasters! In this game, you will embark on an epic journey to defeat powerful Sigmas by playing words.
     
-            How to Play:
-            1. You will encounter various Sigmas throughout the game. Your goal is to defeat each Sigma by playing words.
+            Whats the goal of Sigma Blasters?
+            You will face off against 10 Sigmas of increasing difficulty. If you can beat them all, you'll be the biggest Sigma around. 
+
+            How do you beat a sigma?
+            You must play words from a hand of cards. These cards each represent one letter. Cards all have a base damage based on their difficulty to use (ex. Q is worth 10 and E is worth 1).
+            A longer the word will also have a higher the damage multiplier! Put your vocab to the test. 
+
+            How do I get cards?
+            You can buy cards for money in the shop. Easier to play cards will be more expensive, and harder to play cards will be less expensive. 
+
+            Can the Sigmas win?
+            Yes! You can only shuffle your deck 3 times for each fight. You shuffle your deck automatically when your deck runs low. Make sure to buy lots of cards so you can play more words!
+
+            What if I get stuck?
+            If you get stuck, you can play one vowel to cycle your hand. You'll do little damage but have the opportunity to play more words. 
     
-            2. To play a word, simply click on the letters in the grid below the Sigma. Click on the letters in the correct order to form a valid word.
-    
-            3. Each word you play will have a score associated with it. The longer the word, the higher the score multiplier.
-    
-            4. The damage dealt to the boss is calculated using the formula: (Sum of letter scores) * (Length of the word - 2).
-    
-            5. Keep an eye on the health bar at the top of the screen. If the bar runs out, you defeat the Sigma!
-    
-            6. Earn money by defeating Sigmas and use it to purchase power-ups and upgrades from the shop.
-    
-            Are you ready to become the ultimate word warrior? Let's get started!
+            Are you ready to become the ultimate Sigma warrior? Let's get started!
             `;
         const instructionsObject = this.add.text(config.width / 2, config.height/2, instructionsText, { fontSize: '20px', fill: '#000', align: 'center', wordWrap: { width: config.width - 100 } });
         instructionsObject.setOrigin(0.5);
