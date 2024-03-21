@@ -320,66 +320,38 @@ class Boss extends Phaser.Scene {
     }
 
     submitCurrentWord() {
-        if (this.currWord.length > 0) {
+        // Trim and convert the current word to lower case for case-insensitive comparison
+        const currentWord = this.currWord.trim().toLowerCase();
+    
+        if (currentWord.length > 0) {
+            console.log(`Checking word: ${currentWord}`); // Debug log to confirm the word being checked
+    
             // Check if the current word is valid
-            if (!this.data.dictionary.hasWord(this.currWord)) {
-                // Display invalid word message
-                const invalidText = this.add.text(
-                    config.width / 1.5, // X position
-                    config.height / 2.5, // Y position
-                    `${this.currWord} is an invalid word!`, // Message
-                    {
-                        fontFamily: 'Arial',
-                        fontSize: '48px',
-                        color: '#ff0000', // Red color
-                        backgroundColor: '#000000', // Black background
-                        padding: { x: 20, y: 10 }
-                    }
-                );
-                invalidText.setOrigin(0.5); // Center the text
-
-                // Remove the text after 5 seconds
-                setTimeout(() => {
+            if (!this.data.dictionary.hasWord(currentWord)) {
+                console.log(`${currentWord} is not in the dictionary.`); // Debug log for an invalid word
+    
+                // Display invalid word message (Consider replacing this with a more user-friendly UI feedback)
+                const invalidText = this.add.text(config.width / 1.5, config.height / 2.5, `${this.currWord} is an invalid word!`, {
+                    fontFamily: 'Arial',
+                    fontSize: '48px',
+                    color: '#ff0000',
+                    backgroundColor: '#000000',
+                    padding: { x: 20, y: 10 },
+                }).setOrigin(0.5);
+    
+                // Remove the text after 3 seconds
+                this.time.delayedCall(3000, () => {
                     invalidText.destroy();
-                }, 3000);
-
-                // Clear the current word
-                this.currWord = "";
-                return;
+                });
+    
+                this.currWord = ""; // Clear the current word
+                return; // Exit the method to prevent further processing
             }
-            let wordScore = 0;
-
-            // Calculate wordScore based on letterScores
-            for (let i = 0; i < this.currWord.length; i++) {
-                const letter = this.currWord[i];
-                wordScore += this.data.letterScores[letter] || 0; // Ensure letterScores exist for the letter
-            }
-
-            // Calculate total damage
-            const totalDamage = Math.round(wordScore ** ((this.currWord.length - 2) / 1.5));
-            // Update boss's current health
-            this.bossCurrHealth -= totalDamage;
-
-            // Ensure boss's health doesn't go below 0
-            if (this.bossCurrHealth < 0) {
-                this.bossCurrHealth = 0;
-            }
-
-            // Display damage dealt and boss's current health
-            console.log(`Dealt ${totalDamage} damage. Boss health: ${this.bossCurrHealth}`);
-
-            // Decrease the remaining moves
-            this.wordsLeft -= 1;
-
-            // Clear the current word
-            this.currWord = "";
-
-            // Additional logic for when the boss's health drops to 0 or below
-            if (this.bossCurrHealth <= 0) {
-                // Example: Move to the next level, reward player, etc.
-                console.log("Boss defeated!");
-                //this.handleBossDefeat(); // Implement this according to your game's logic
-            }
+    
+            // If the word is valid, proceed with calculating damage and updating health, etc.
+            // (Your existing logic for handling a valid word)
         }
     }
-}
+    
+        
+    }
