@@ -234,7 +234,26 @@ class Boss extends Phaser.Scene {
         if (this.currWord.length > 0) {
             // Initialize wordScore variable
             if (!this.data.dictionary.hasWord(this.currWord)){
-                console.log("Invalid word");
+                const invalidText = this.add.text(
+                    config.width / 1.5, // X position
+                    config.height / 2.5, // Y position
+                    `${this.currWord} is an invalid word!`, // Message
+                    {
+                        fontFamily: 'Arial',
+                        fontSize: '48px',
+                        color: '#ff0000', // Red color
+                        backgroundColor: '#000000', // Black background
+                        padding: { x: 20, y: 10 }
+                    }
+                );
+                invalidText.setOrigin(0.5); // Center the text
+                
+                // Remove the text after 5 seconds
+                setTimeout(() => {
+                    invalidText.destroy();
+                }, 3000);
+                
+                // Clear the curent word
                 this.currWord = "";
                 return;
             }
