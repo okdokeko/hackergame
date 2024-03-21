@@ -86,6 +86,16 @@ class Shop extends Phaser.Scene {
                 y: 5,
             },
         }).setOrigin(0.5);
+        const letterScore = this.add.text(card.x, card.y + 90, `Score: ${this.data.letterScores[cardChar.toLowerCase()]}`, {
+            fontFamily: 'Arial',
+            fontSize: '18px',
+            color: '#ffffff',
+            backgroundColor: '#550674', // Using a blue background for visibility
+            padding: {
+                x: 5,
+                y: 5,
+            },
+        }).setOrigin(0.5);
         
         card.on('pointerup', () => {
             if (this.data.money >= letterCostMap[cardChar]) {

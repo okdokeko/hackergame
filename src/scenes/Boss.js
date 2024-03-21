@@ -21,15 +21,7 @@ class Boss extends Phaser.Scene {
     create() {
 
         // A predefined map between letters and scores. Based on scrabble 
-        this.letterScores = {
-            'a': 1, 'e': 1, 'i': 1, 'o': 1, 'u': 1, 'l': 1, 'n': 1, 's': 1, 't': 1, 'r': 1,
-            'd': 2, 'g': 2,
-            'b': 3, 'c': 3, 'm': 3, 'p': 3,
-            'f': 4, 'h': 4, 'v': 4, 'w': 4, 'y': 4,
-            'k': 5,
-            'j': 8, 'x': 8,
-            'q': 10, 'z': 10
-        };
+        
 
         this.wordsLeft = 5 + this.data.level;
 
@@ -101,7 +93,7 @@ class Boss extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Generate cards
-        this.generateHand(this.letterScores);
+        this.generateHand(this.data.letterScores);
         
         clearWordButton.setInteractive();
         clearWordButton.on('pointerdown', () => {
@@ -113,7 +105,7 @@ class Boss extends Phaser.Scene {
         playWordText.setInteractive();
         playWordText.on('pointerdown', () => {
             this.submitCurrentWord();
-            this.generateHand(this.letterScores);
+            this.generateHand(this.data.letterScores);
         });
                 
     }
@@ -251,7 +243,7 @@ class Boss extends Phaser.Scene {
             // Calculate wordScore based on letterScores
             for (let i = 0; i < this.currWord.length; i++) {
                 const letter = this.currWord[i];
-                wordScore += this.letterScores[letter] || 0; // Ensure letterScores exist for the letter
+                wordScore += this.data.letterScores[letter] || 0; // Ensure letterScores exist for the letter
             }
 
             // Calculate total damage
