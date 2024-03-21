@@ -31,6 +31,8 @@ class Boss extends Phaser.Scene {
             'q': 10, 'z': 10
         };
 
+        this.wordsLeft = 5;
+
         this.currScore = 0;
         this.currMult = 1;
         this.currWord = "";
@@ -112,8 +114,9 @@ class Boss extends Phaser.Scene {
         playWordText.on('pointerdown', () => {
             this.submitCurrentWord();
             this.generateHand(this.letterScores);
+            this.wordsLeft -= 1;
         });
-        
+                
     }
 
     update() {
@@ -152,6 +155,13 @@ class Boss extends Phaser.Scene {
             backgroundColor: '#000000',
             padding: { x: 10, y: 5 }
         }).setOrigin(0.5);
+
+        this.moneyText?.destroy();
+        this.moneyText = this.add.bitmapText(config.width / 2, config.height / 2,'vermin', `Moves left: ${this.wordsLeft}`,24);
+
+        if (this.wordsLeft < 1){
+            this.scene.start('Lose');
+        }
     }
 
     displayPlayerHand() {
