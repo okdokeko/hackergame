@@ -321,26 +321,27 @@ class Boss extends Phaser.Scene {
     }
 
     submitCurrentWord() {
-        if (this.currWord.length > 0) {
+        // Trim and convert the current word to lower case for case-insensitive comparison
+        const currentWord = this.currWord.trim().toLowerCase();
+    
+        if (currentWord.length > 0) {
+            console.log(`Checking word: ${currentWord}`); // Debug log to confirm the word being checked
+    
             // Check if the current word is valid
-            if (!this.data.dictionary.hasWord(this.currWord)) {
-                // Display invalid word message
-                const invalidText = this.add.text(
-                    config.width / 1.5, // X position
-                    config.height / 2.5, // Y position
-                    `${this.currWord} is an invalid word!`, // Message
-                    {
-                        fontFamily: 'Arial',
-                        fontSize: '48px',
-                        color: '#ff0000', // Red color
-                        backgroundColor: '#000000', // Black background
-                        padding: { x: 20, y: 10 }
-                    }
-                );
-                invalidText.setOrigin(0.5); // Center the text
-
-                // Remove the text after 5 seconds
-                setTimeout(() => {
+            if (!this.data.dictionary.hasWord(currentWord)) {
+                console.log(`${currentWord} is not in the dictionary.`); // Debug log for an invalid word
+    
+                // Display invalid word message (Consider replacing this with a more user-friendly UI feedback)
+                const invalidText = this.add.text(config.width / 1.5, config.height / 2.5, `${this.currWord} is an invalid word!`, {
+                    fontFamily: 'Arial',
+                    fontSize: '48px',
+                    color: '#ff0000',
+                    backgroundColor: '#000000',
+                    padding: { x: 20, y: 10 },
+                }).setOrigin(0.5);
+    
+                // Remove the text after 3 seconds
+                this.time.delayedCall(3000, () => {
                     invalidText.destroy();
                 }, 3000);
 
