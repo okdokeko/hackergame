@@ -187,7 +187,7 @@ class Boss extends Phaser.Scene {
         this.cardsDiscardedText = this.add.bitmapText(config.width * 40 / 100, config.height * 60 / 100,'vermin', `Cards used: ${this.discardedHand.length}`,24);
 
         // Display the remaining moves
-        this.moneyText = this.add.bitmapText(config.width / 2, config.height / 2, 'vermin', `Moves left: ${this.wordsLeft}`, 24);
+        //this.moneyText = this.add.bitmapText(config.width / 2, config.height / 2, 'vermin', `Moves left: ${this.wordsLeft}`, 24);
 
         // Check if there are no moves left
         if (this.shufflesLeft < 1) {
